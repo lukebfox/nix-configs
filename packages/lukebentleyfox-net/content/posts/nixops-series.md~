@@ -1,0 +1,12 @@
++++
++++
+# How to build a NixOps plugin
+based on my experience with nixops-hetznercloud
+
+Assumptions
+1. The reader can understand intermediate python. This isn't a python tutorial.
+2. The reader knows about the nix ecosystem (Nix/NixOS/NixOps).
+3. The reader can understand beginner nix.
+
+Posts
+* 

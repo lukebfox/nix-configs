@@ -1,0 +1,126 @@
+\documentclass[11pt,a4paper,sans]{moderncv}
+
+\moderncvstyle{banking} % style options: casual (default) classic oldstyle banking
+\moderncvcolor{blue}  % color options: blue (default) orange green red purple grey black
+
+%\usepackage{FiraSans}
+%\renewcommand{\familydefault}{\sfdefault}
+% to set the default font use
+%  - '\sfdefault' for the default sans serif font,
+%  - '\rmdefault' for the default roman font
+%  - any tex font name
+
+\nopagenumbers{}        % uncomment to suppress automatic page numbering for CVs longer than one page
+
+\usepackage[utf8]{inputenc}
+\usepackage{pdfpages}
+\usepackage{multicol}
+\usepackage[scale=0.8,top=2cm, bottom=1cm]{geometry}
+
+%\setlength{\hintscolumnwidth}{3cm} % if you want to change the width of the column with the dates
+%
+\usepackage{xpatch}
+\xpatchcmd\cventry{,}{}{}{}
+
+\name{Luke}{Bentley-Fox}
+%\address{London}{United Kingdom}
+\vspace*{3mm}
+\phone[mobile]{(+44)7914935547}
+\email{jobs@lukebentleyfox.net}
+\social[github]{lukebfox}
+\homepage{lukebentleyfox.net}
+%\photo[64pt][0.4pt]{picture}                       % optional, remove / comment the line if not wanted; '64pt' is the height the picture must be resized to, 0.4pt is the thickness of the frame around it (put it to 0pt for no frame) and 'picture' is the name of the picture file
+
+%----------------------------------------------------------------------------------
+%            content
+%----------------------------------------------------------------------------------
+\begin{document}
+
+\vspace*{-1.05mm}
+\makecvtitle
+\vspace*{-10mm}
+
+\section{Education}
+\cventry{The University of Sheffield}{}{BSc Computer Science - First Class Honours}{September 2016 -- June 2020}{Key Modules:}{
+\begin{itemize}
+   \item \textbf{Individual Research Project} (First Class)\\
+         ``Implementing an Equational Theorem Prover in Haskell''\\
+         I built a Knuth-Bendix completion based automated theorem prover for first order logics. This increased my understanding of formal mathematics, fostered a strong ability to work independently, and bolstered my capability to design and write complex software in the functional style.
+    \item \textbf{COM3501 Computer Security and Forensics}\\
+          Developed strong security and cryptographic fundamentals, covering topics such as access control, signatures/pkis and threat modelling. Experienced common attacks and networking protocols with penetration testing sessions using nmap, wireshark, and ettercap. Outside of this module I discovered a vulnerability in the university network.
+    \item \textbf{COM3190 Theory of Distributed Systems}\\
+          Learnt the CCS and $\pi$ calculi for modelling distributed systems and implemented an Enigma Machine in \textbf{Erlang} as part of a report on concurrency and deadlocks.
+    \item \textbf{COM3105 Advanced Algorithms}\\
+          Known as the degree's toughest course this optional module built upon the foundations laid by the standard module earlier in the degree. I obtained knowledge and experience in applying advanced algorithmic tools such as kernelisation and fpt-algorithms to the development of algorithms for generalised problems.
+    \item \textbf{COM3005 Bioinspired Computing}\\
+          Explored modern AI techniques such as neural computing and evolutionary/swarm-based algorithms in the context of their biological inspirations such as the brain and the human immune system. Simulated forest fires with \textbf{Python} as part of a report on computational modelling with cellular automata.
+    \item \textbf{COM3505 The Internet of Things}\\
+          I hacked on small devices such as the ESP32, implementing OTA, WiFi AP and sensor management in \textbf{C++}, while making use of low-energy hardware features such as deep sleep and BLE.
+    \item \textbf{COM3008 Software Hut}\\
+          Produced a RESTful web app for a regional award-winning NHS-backed initiative using \textbf{Ruby on Rails} and \textbf{PostgreSQL}. Winners of the \textbf{Software Hut Prize} awarded by the University and the external client in recognition of outstanding software development.
+    \item \textbf{COM2008 Systems Design and Security}\\
+          Developed strong fundamentals in system design from a software engineering perspective; from agile methodologies and design patterns to software verification and testing. Culminated in a team project to build a university grading system in \textbf{Java}.
+    \item \textbf{COM2004 Data Driven Computing}\\
+          Introduction to machine learning and data processing. Worked with Jupyter notebooks for experimentation and developed an OCR system in \textbf{Python}.
+\end{itemize}}
+
+\vspace{1em}
+
+\cventry{Hampton School}{}{A Levels / GCSEs}{September 2007 -- June 2014}{\hspace*{-2.5 mm} Key Grades:}{}{
+\begin{multicols}{3}
+    \begin{itemize}
+        \item{\makebox[4.4cm]{A Level Mathematics\hfill} A}
+        \item{\makebox[4.4cm]{A Level Physics\hfill} A}
+        \item{\makebox[4.4cm]{A Level Chemistry\hfill} C}
+        \columnbreak
+        \item{\makebox[4.4cm]{ IGCSE Mathematics\hfill} A*}
+        \item{\makebox[4.4cm]{ GCSE English Literature\hfill} A*}
+        \item{\makebox[4.4cm]{ GCSE English Language\hfill} A}
+        \columnbreak
+        \item{\makebox[4.4cm]{ GCSE Physics\hfill} A*}
+        \item{\makebox[4.4cm]{ GCSE Chemistry\hfill} A}
+        \item{\makebox[4.4cm]{ GCSE Biology\hfill} A}
+    \end{itemize}
+\end{multicols}}
+
+\pagebreak
+
+\section{Projects}
+
+\cventry{}{}{Open Source Contributer}{October 2020 -- Ongoing}{}{
+\vspace{-1em}
+\begin{itemize}
+    \item Author of the NixOps plugin for Hetzner Cloud, a cloud deployment tool for NixOS systems. Written in \textbf{Python} and built with \textbf{Nix}.
+    \item Contributor to NixOps/Nixpkgs via commits and code review. Gained CI experience with Github Actions.
+\end{itemize}}
+\vspace{0.1cm}
+
+\cventry{}{}{Marsworks Software Team Leader}{November 2018 -- May 2020 }{Autonomous Martian Rover}{
+\begin{itemize}
+  \item Led a cross-discipline team of 8 developers in producing a life size autonomous rover to compete in the largest space robotics competition in Europe, the ERC.
+  \item Developed with \textbf{ROS}, \textbf{C\selectfont++} and \textbf{Python}. I was responsible for the high level architecture of the software systems. We used state of the art technologies and algorithms across the rover, from VSLAM to CNN's.
+  \item Managing the GitHub organisation, weekly sprints, code reviews, recruitment, budgeting and integration with other sub teams significantly improved my teamwork and team management skills.
+  \item Engaging with outreach and doing interviews for media companies gave me quality public speaking experience.
+\end{itemize}}
+\vspace{0.1cm}
+
+\section{Extra-Curricular}
+
+\cventry{}{}{Virtual Private Networking}{}{\vspace{-0.4cm}}{
+%\begin{itemize}
+I administrate a plethora of services from behind lukebentleyfox.net from the application to the machine level, using tools I've developed. I've been using \textbf{Linux} for many years on my laptop and while it was natural to start deploying to the cloud it gave me lots of practical experience with \textbf{Docker}, SSL/DNS, and the \textbf{Nix} functional language.
+%\end{itemize}
+}
+
+\vspace{0.1cm}
+
+\cventry{}{}{Hackathons}{}
+{\vspace{-1.0em}}{
+\begin{itemize}
+    \item HackMed2020 - Coronavirus triage optimizer. Built with \textbf{Python}.
+    \item HackSheffield 5 - Developed Healthify, a gamified habit building web app using     \textbf{React}.
+    \item SheffJam 6 - Wrote a miniature 2D platformer game in \textbf{GDScript} for the Godot Engine.
+    \item HackSheffield 4 - Built a remote controllable robot with an \textbf{Arduino} and pizza boxes.
+\end{itemize}}
+
+\end{document}

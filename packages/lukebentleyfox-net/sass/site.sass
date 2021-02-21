@@ -1,0 +1,65 @@
+@charset "utf-8"
+
+@import "./base.sass"
+
+$link: hsl(0, 0%, 21%)
+$link-hover: hsl(204, 71%, 39%)
+
+$read-more: hsl(204, 71%, 39%)
+$read-more-hover: hsl(348, 100%, 61%)
+
+body
+  font: 100% $family-primary
+  display: flex
+  flex-direction: column
+  min-height: 100vh
+
+main
+  flex: 1
+
+pre
+  border-radius: 0.3em
+
+code
+  background-color: #e7e7e7
+  border-radius: 0.2em
+  padding: 0.25em 0.3em 0.25em
+
+.center
+  display: flex
+  justify-content: center
+  align-items: center
+
+// override font size in popup hint
+.hint .dropdown-item
+  font-size: 1rem
+
+.filename
+  padding-left: 0.2em
+
+.link
+  color: $link
+  &:hover
+    color: $link-hover
+
+.read-more
+  color: $read-more
+  &:hover
+    color: $read-more-hover
+
+$breakpoint-mobile: 768px
+
+@media (max-width: $breakpoint-mobile)
+  body
+    font: 80% $family-primary
+
+// for touchscreen devices
+//@media not ((hover: hover) and (pointer: fine))
+  .dropdown.hint.is-hoverable:hover .dropdown-menu
+    display: none
+
+
+// enable hover popup-hints on laptops
+@media (hover: hover) and (pointer: fine)
+  .dropdown.hint.is-hoverable:hover .dropdown-menu
+    display: block

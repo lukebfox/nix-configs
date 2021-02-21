@@ -1,0 +1,30 @@
++++
+title="70 characters limit"
+description="Something descriptive; # in series if applicable."
+date=yyyy-mm-dd
+draft=true
++++
+
+Introductory statement that lets the user know what the post is about, and if it's in a series.
+Length: 1 minute / 250 words.
+
+<!-- more -->
+
+## Background
+The problem
+Length: 2-5 minute / 500-1250 words
+
+## Implementation
+The solution
+Length: 3-6 minute / 250-1500 words
+
+## Discussion
+Discuss the pros and cons of solution. Talk about edge cases here. Talk about alternatives.
+Length: 1-2 minute / 250-500 words
+
+
+## Conclusion
+Close the post off in respect to the abstract, link to next series post.
+Length: 1 minute / 250 words.
+
+Total length: 10-15 words / 2500-3250 words

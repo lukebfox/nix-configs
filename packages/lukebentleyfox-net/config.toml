@@ -1,0 +1,55 @@
+# The URL the site will be built for
+base_url = "https://lukebentleyfox.net"
+
+title = "Luke Bentley-Fox"
+
+default_language = "en"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+highlight_theme = "one-dark"
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+taxonomies = [
+	{ name = "categories", feed = true, paginate_by = 10 },
+	{ name = "tags", fees = true, paginate_by = 10 },
+]
+
+[extra]
+navbar_items = [
+	{ url = "$BASE_URL/", name = "About" },
+	{ url = "$BASE_URL/posts", name = "Posts" },
+	{ url = "$BASE_URL/resume/", name = "Resume" },
+]
+# Add links to favicon
+#[extra.favicon]
+#favicon_16x16 = "/icons/favicon-16x16.png"
+#favicon_32x32 = "/icons/favicon-32x32.png"
+#apple_touch_icon = "/icons/apple-touch-icon.png"
+#safari_pinned_tab = "/icons/safari-pinned-tab.svg"
+#webmanifest = "/icons/site.webmanifest"
+
+# Author details
+[extra.author]
+name = "Luke Bentley-Fox"
+avatar = "/images/avatar.jpg"
+
+[extra.analytics]
+google = "UA-179871806-1"
+
+# To add hyvor comments
+#[extra.commenting]
+#hyvor = "<your_website_id>"
+
+# Social link setup
+[extra.social]
+email = "mail@lukebentleyfox.net"
+github = "lukebfox"
+linkedin = "lukebfox"
+

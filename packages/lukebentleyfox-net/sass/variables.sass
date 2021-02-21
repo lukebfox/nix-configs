@@ -1,0 +1,115 @@
+@charset "utf-8"
+
+@import "./initial-variables.sass"
+@import "../vendor/bulma/sass/utilities/functions.sass"
+
+$primary: $turquoise
+
+$info: $cyan
+$success: $green
+$warning: $yellow
+$danger: $red
+
+$light: $white-ter
+$dark: $grey-darker
+
+// Invert colors
+$orange-invert: findColorInvert($orange)
+$yellow-invert: findColorInvert($yellow)
+$green-invert: findColorInvert($green)
+$turquoise-invert: findColorInvert($turquoise)
+$cyan-invert: findColorInvert($cyan)
+$blue-invert: findColorInvert($blue)
+$purple-invert: findColorInvert($purple)
+$red-invert: findColorInvert($red)
+
+$twitter-invert: findColorInvert($twitter)
+$reddit-invert: findColorInvert($reddit)
+$whatsapp-invert: findColorInvert($whatsapp)
+$hackernews-invert: findColorInvert($hackernews)
+$linkedin-invert: findColorInvert($linkedin)
+$github-invert: findColorInvert($github)
+
+$primary-invert: findColorInvert($primary)
+$primary-light: findLightColor($primary)
+$primary-dark: findDarkColor($primary)
+$info-invert: findColorInvert($info)
+$info-light: findLightColor($info)
+$info-dark: findDarkColor($info)
+$success-invert: findColorInvert($success)
+$success-light: findLightColor($success)
+$success-dark: findDarkColor($success)
+$warning-invert: findColorInvert($warning)
+$warning-light: findLightColor($warning)
+$warning-dark: findDarkColor($warning)
+$danger-invert: findColorInvert($danger)
+$danger-light: findLightColor($danger)
+$danger-dark: findDarkColor($danger)
+$light-invert: findColorInvert($light)
+$dark-invert: findColorInvert($dark)
+
+
+// General colors
+$scheme-main: $white
+$scheme-main-bis: $white-bis
+$scheme-main-ter: $white-ter
+$scheme-invert: $black
+$scheme-invert-bis: $black-bis
+$scheme-invert-ter: $black-ter
+
+$background: $white-ter
+
+$border: $grey-lighter
+$border-hover: $grey-light
+$border-light: $grey-lightest
+$border-light-hover: $grey-light
+
+// Text colors
+$text: $grey-dark
+$text-invert: findColorInvert($text)
+$text-light: $grey
+$text-strong: $grey-darker
+
+// Code colors
+$code: $red
+$code-background: $background
+
+$pre: $text
+$pre-background: $background
+
+// Link colors
+$link: $blue
+$link-invert: findColorInvert($link)
+$link-light: findLightColor($link)
+$link-dark: findDarkColor($link)
+$link-visited: $purple
+
+$link-hover: $grey-darker
+$link-hover-border: $grey-light
+
+$link-focus: $grey-darker
+$link-focus-border: $blue
+
+$link-active: $grey-darker
+$link-active-border: $grey-dark
+
+// Typography
+$family-primary: $family-sans-serif
+$family-secondary: "Montserrat", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif
+$family-code: $family-monospace
+
+$size-small: $size-7
+$size-normal: $size-6
+$size-medium: $size-5
+$size-large: $size-4
+
+// Lists and maps
+$brand-colors: ("twitter":($twitter, $twitter-invert), "linkedin": ($linkedin, $linkedin-invert), "reddit": ($reddit, $reddit-invert), "whatsapp": ($whatsapp, $whatsapp-invert), "hackernews": ($hackernews, $hackernews-invert), "github": ($github, $github-invert))
+
+$custom-shades: null
+
+$colors: mergeColorMaps(("white": ($white, $black), "black": ($black, $white), "light": ($light, $light-invert), "dark": ($dark, $dark-invert), "primary": ($primary, $primary-invert, $primary-light, $primary-dark), "link": ($link, $link-invert, $link-light, $link-dark), "info": ($info, $info-invert, $info-light, $info-dark), "success": ($success, $success-invert, $success-light, $success-dark), "warning": ($warning, $warning-invert, $warning-light, $warning-dark), "danger": ($danger, $danger-invert, $danger-light, $danger-dark)), $brand-colors)
+
+$shades: mergeColorMaps(("black-bis": $black-bis, "black-ter": $black-ter, "grey-darker": $grey-darker, "grey-dark": $grey-dark, "grey": $grey, "grey-light": $grey-light, "grey-lighter": $grey-lighter, "white-ter": $white-ter, "white-bis": $white-bis), $custom-shades)
+
+$sizes: $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7

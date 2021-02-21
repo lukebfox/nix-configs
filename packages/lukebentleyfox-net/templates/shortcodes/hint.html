@@ -1,0 +1,14 @@
+<div class="dropdown hint is-hoverable">
+  <div class="dropdown-trigger">
+    <span class="icon has-text-info" aria-haspopup="true" aria-controls="popup-hint{{id}}">
+      <i class="fas fa-info-circle" aria-hidden="true"></i>
+    </span>
+  </div>
+  <div class="dropdown-menu" id="popup-hint{{id}}" role="menu">
+    <div class="dropdown-content">
+      <div class="dropdown-item">
+        {{ body | markdown(inline=true) | safe }}
+      </div>
+    </div>
+  </div>
+</div>

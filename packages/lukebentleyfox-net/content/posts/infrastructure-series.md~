@@ -1,0 +1,12 @@
+# Building your own infrastructure, with Nix.
+a guided tour through my configurations
+
+Assumptions
+2. The reader knows about the nix ecosystem (Nix/NixOS/NixOps).
+3. The reader can understand beginner nix.
+
+Posts
+* Introducing Nix Flakes
+* Advanced NixOS configurations
+* Managing users with Home Manager
+* Deploying your infrastructure with NixOps

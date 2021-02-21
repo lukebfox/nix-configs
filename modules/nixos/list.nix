@@ -1,0 +1,9 @@
+[
+  ./development
+  ./gaming
+  ./graphical
+  ./home-manager
+  ./network
+  ./secrets
+  ./user-manager
+]
