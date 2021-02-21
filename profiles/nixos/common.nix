@@ -89,7 +89,7 @@ in
     users.jeeves = {
       uid = 2000;
       isAdmin = true;
-      home = "/jeeves";
+      homeDirectory = "/jeeves";
     };
   };
 

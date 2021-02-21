@@ -27,7 +27,7 @@ in
       # Make custom home-manager modules available.
       modules = (import ../../../modules/home-manager/list.nix) ++ [
         (base16.homeManagerModules.base16)
-        ../../../profiles/home-manager/common.nix
+         ../../../profiles/home-manager/common.nix
       ];
     });
   };

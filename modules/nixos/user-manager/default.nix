@@ -17,7 +17,7 @@ let
 
   userOpts = { name, ... }: {
     options = {
-      hmConfig = mkOption {
+      home = mkOption {
         default = null;
         type = types.nullOr types.path;
         description = ''
@@ -31,15 +31,9 @@ let
           Whether the user has admin priviledges i.e. added to wheel.
         '';
       };
-      # TODO get rid of this horrible mirroring.
-      # mirrors 'home-manager.users.<name?>.themes.base16
-      userTheme = mkOption {
-        default = null;
-        type = types.nullOr types.attrs;
-      };
       # mirrors 'users.users' options
-      home = mkOption {
-        default = "/home/${name}";
+      homeDirectory = mkOption {
+        example = "/home/${name}";
         type = types.str;
       };
       uid = mkOption {
@@ -81,11 +75,12 @@ in
     users.mutableUsers = false;
     users.groups.builders = { gid = 1999; };
 
-    # Define a nixos user for every user-manager user definition.
+    # Derive a nixos user definition for every user-manager user definition.
     users.users =
       mapAttrs
-        (_: { uid, home, isAdmin, ... }: {
-          inherit uid home;
+        (_: { uid, homeDirectory, isAdmin, ... }: {
+          inherit uid;
+          home = homeDirectory;
           extraGroups =
             [ "builders" ]
             ++ cfg.userGroups
@@ -100,14 +95,17 @@ in
         })
         cfg.users;
 
-    # Build the home-manager configuration for all users who specified
-    # one with `modules.user-manager.users.<name?>.hmConfig`.
+    # Derive a home-manager user definition for every user manager user with
+    # a `home` attribute.
     home-manager.users =
       mapFilterAttrs
-        (username: { hmConfig, ... }: nameValuePair username (import hmConfig))
-        (_: { hmConfig, ... }: hmConfig != null)
+        (username: { home, ... }: nameValuePair username (import home))
+        (_: { home, ... }: home != null)
         cfg.users;
 
   };
 
 }
+
+  # Set the base16 theme for the user (the default definition for userTheme is {}).
+  #themes.base16 = users.${username}.userTheme;

@@ -9,14 +9,10 @@
 
   modules.user-manager.users = {
     lukebfox = {
-      uid = 1000;
+      homeDirectory = "/home/lukebfox";
+      home = ../home-manager/standard.nix;
       isAdmin = true;
-      hmConfig = ../../configs/home-manager/standard.nix;
-      userTheme = {
-        scheme  = "unclaimed";
-        variant = "monokai";
-        extraParams =  { tone = "dark"; };
-      };
+      uid = 1000;
     };
   };
 

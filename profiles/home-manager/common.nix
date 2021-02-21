@@ -8,8 +8,12 @@ let
 in
 {
 
-  # Set the base16 theme for the user (the default definition for userTheme is {}).
-  themes.base16 = users.${username}.userTheme;
+  # Default theme
+  themes.base16 = lib.mkDefault {
+    scheme  = "unclaimed";
+    variant = "monokai";
+    extraParams =  { tone = "dark"; };
+  };
 
   # But of course :)
   # No US keyboard domination in my backyard! (salty)
