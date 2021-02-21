@@ -1,4 +1,4 @@
-# The niX Files
+# Nix Configs
 This repository contains all my [Nix][1] configs and represents my personal infrastructure, packaged as a Nix flake. In general it serves as a useful example of packaging with flakes, and you can reference any of my outputs as inputs to your own flakes or just clone the repository and modify it for your own needs. I've exported loads of cool things including:
 
 - library functions
