@@ -4,7 +4,7 @@ This repository contains all my [Nix][1] configs and represents my personal infr
 - [NixOps][4] network configuration
 - [NixOS][3] modules & configurations
 - [Home Manager][2] modules & configurations
-- Nixpkgs packages & overlays
+- Nixpkgs overlays & packages
 - library functions
 
 For the full list run `nix flake show`.
@@ -40,7 +40,7 @@ Home Manager configurations themselves may be used by many users on many machine
 
 ``` bash
   λ cd nix-configs
-  λ nix build ".#homeManagerconfigurations.<name?>.activationPackage"; ./result/activate;
+  λ nix build ".#homeManagerConfigurations.<name?>.activationPackage"; ./result/activate;
 ```
 
 ### Nixpkgs Overlays
@@ -49,7 +49,7 @@ In simple terms overlays represent changes to package sets. I have overlays repr
 
 ### Nixpkgs Packages
 
-I have a couple of custom nix packages such as my cv, website, e.t.c. that are not suitable for nixpkgs. Derivations for these packages are declared in `packages/`, along with a single overlay which includes them in any package set it is applied on. You can build individual packages by their name in the overlay e.g. to build some cool fonts:
+I have a couple of custom nix packages such as my cv, website, e.t.c. that are not suitable for nixpkgs. Derivations for these packages are declared in `packages/`, along with a single overlay which includes them in any package set it is applied on. You can build individual packages by their name in the overlay. For example to build fira code nerdfonts:
 
 ```bash
   λ cd nix-configs

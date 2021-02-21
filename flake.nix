@@ -21,8 +21,9 @@
             , nixops-plugged
             , ... } @ inputs:
     let
-      # Bring external lib functions into scope.
-      inherit (nixpkgs.lib) importTOML nixosSystem;
+      # Bring some lib functions into scope.
+      inherit (builtins) attrValues;
+      inherit (nixpkgs.lib) importTOML nixosSystem optionalString;
       inherit (home-manager.lib) homeManagerConfiguration;
       inherit (flake-utils.lib) eachDefaultSystem;
 
@@ -38,7 +39,7 @@
       pkgImport = nixpkgs: system: import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };
-        overlays = (builtins.attrValues (importOverlays ./overlays)) ++ [
+        overlays = (attrValues self.overlays) ++ [
           emacs.overlay
         ];
       };
@@ -49,9 +50,7 @@
     in {
 
       ##########################################################################
-      #                                 NixOps                                 #
-      ##########################################################################
-
+      ## NixOps Network Configurations
 
       # Attrset of deployable NixOps network configurations.
       nixopsConfigurations =
@@ -102,9 +101,9 @@
           });
         };
 
+
       ##########################################################################
-      #                                 NixOS                                  #
-      ##########################################################################
+      ## NixOS Modules & NixOS Host Configurations
 
       # Attrset of custom NixOS modules.
       nixosModules =
@@ -151,9 +150,9 @@
           };
         in recImport { _import = importConfiguration;  dir = ./configs/nixos; };
 
+
       ##########################################################################
-      #                              Home Manager                              #
-      ##########################################################################
+      ## Home Manager Modules & Home Manager Home Configurations
 
       # Attrset of custom Home Manager modules.
       homeManagerModules =
@@ -189,12 +188,16 @@
           };
         };
 
+
       ##########################################################################
-      #                           NixPkgs Overlay                              #
-      ##########################################################################
+      ## Nixpkgs Overlays
 
       # An overlay for including my custom packages in some package set.
       overlay = import ./packages;
+
+      # Attrset of overlays which override various standard packages.
+      overlays = importOverlays ./overlays;
+
 
     # Now follows a bunch of outputs multiplexed for common systems.
     } // eachDefaultSystem (system:
@@ -202,20 +205,23 @@
         pkgs = pkgImport nixpkgs system;
       in {
 
+        ########################################################################
+        ## Nixpkgs Packages
+
         # Attrset of custom nix packages.
         packages = self.overlay pkgs pkgs;
 
-        ########################################################################
-        #                   Development/Deployment Environment                 #
-        ########################################################################
 
-        # A Nix Shell containing a nixops capable of deploying my network.
+        ########################################################################
+        ## Development/Deployment Environment
+
+        # A nix shell containing a nixops capable of deploying my network.
         devShell = pkgs.mkShell {
           nativeBuildInputs = [
             pkgs.git
             pkgs.git-crypt
             pkgs.nixFlakes
-            nixops-plugged.packages.${system}.nixops-plugged#nixops-hetznercloud
+            nixops-plugged.packages.${system}.nixops-hetznercloud
           ];
           shellHook = ''
             mkdir -p data/secret
@@ -227,7 +233,7 @@
           NIX_CONF_DIR =
             let
               current =
-                nixpkgs.lib.optionalString
+                optionalString
                   (builtins.pathExists /etc/nix/nix.conf)
                   (builtins.readFile /etc/nix/nix.conf);
               nixConf = pkgs.writeTextDir "opt/nix.conf" ''
