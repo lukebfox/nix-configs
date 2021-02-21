@@ -1,4 +1,4 @@
-{ nixosConfig, config, lib, pkgs, ... }:
+{ config, lib, ... }:
 let
   inherit (lib) mkIf mkEnableOption mkMerge mkOption types;
 

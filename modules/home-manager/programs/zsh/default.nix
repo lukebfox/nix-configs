@@ -1,4 +1,4 @@
-{ nixosConfig, config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   inherit (builtins) attrValues readFile;
   inherit (lib) mkEnableOption mkIf;

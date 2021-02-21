@@ -1,4 +1,4 @@
-{ nixosConfig, config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf;
 
@@ -13,7 +13,7 @@ in
 
   config = mkIf cfg.enable {
 
-    
+
     # Emacsclient based workflow.
 
     programs.emacs = {

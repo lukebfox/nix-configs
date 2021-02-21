@@ -1,8 +1,7 @@
-{ nixosConfig, config, lib, pkgs, ... } @ args:
+{ config, lib, pkgs, ... } @ args:
 
 let
   inherit (builtins) head;
-  inherit (nixosConfig.fonts.fontconfig.defaultFonts) sansSerif;
   inherit (config.lib.base16) base16template;
   inherit (lib) fileContents mkIf mkEnableOption;
 
@@ -22,8 +21,8 @@ in
 
     programs.kitty = {
       enable = true;
+      inherit (config.gtk) font;
       extraConfig = colours;
-      font.name = head sansSerif;
       keybindings = {
         "ctrl+shift+v" = "paste_from_clipboard";
         "ctrl+shift+s" = "paste_from_selection";
