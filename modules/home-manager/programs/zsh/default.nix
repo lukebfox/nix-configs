@@ -55,7 +55,7 @@ in
         G="| rg";
       };
       prezto = {
-        enable = true;
+        enable = false;
         # autosuggestions.color = "";
         caseSensitive = false;
         completions.ignoredHosts = [ "0.0.0.0" "127.0.0.1" ];

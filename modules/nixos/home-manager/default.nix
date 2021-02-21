@@ -19,19 +19,16 @@ in
   # the `home-manager.users` submodule for additional functionality.
   options.home-manager.users = mkOption {
     type = types.attrsOf (types.submoduleWith {
-
-      # Make custom home-manager modules available.
-      modules = let
-        common = ../../../profiles/home-manager/common.nix;
-        flakeModules = import ../../../modules/home-manager/list.nix;
-      in flakeModules ++ [ common base16.hmModules.base16 ];
-
       # Make various NixOS specialArgs available to Home Manager
       # modules as well. Would like to keep this list small!
       specialArgs = { inherit (args)
         unstablePkgs utilities shared secrets;
       };
-
+      # Make custom home-manager modules available.
+      modules = (import ../../../modules/home-manager/list.nix) ++ [
+        (base16.homeManagerModules.base16)
+        ../../../profiles/home-manager/common.nix
+      ];
     });
   };
 

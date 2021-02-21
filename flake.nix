@@ -4,10 +4,11 @@
   inputs = {
     nixpkgs.url          = "nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "nixpkgs/master";
-    home.url             = "github:nix-community/home-manager";
+    home-manager.url     = "github:nix-community/home-manager";
     emacs.url            = "github:nix-community/emacs-overlay";
     nixops-plugged.url   = "github:lukebfox/nixops-plugged";
     base16.url           = "github:lukebfox/base16-nix";
+    flake-utils.url      = "github:numtide/flake-utils";
   };
 
   outputs = { self
@@ -15,14 +16,17 @@
             , nixpkgs-unstable
             , base16
             , emacs
-            , home
+            , flake-utils
+            , home-manager
             , nixops-plugged
             , ... } @ inputs:
     let
-      # Everything in this flake is intended for GNU/Linux, for now.
-      system = "x86_64-linux";
+      # Bring external lib functions into scope.
+      inherit (nixpkgs.lib) importTOML nixosSystem;
+      inherit (home-manager.lib) homeManagerConfiguration;
+      inherit (flake-utils.lib) eachDefaultSystem;
 
-      # Import library functions, and bring some into scope.
+      # Import my lib and bring some functions into scope.
       utilities = import ./utilities { inherit (nixpkgs) lib; };
       inherit (utilities)
         importOverlays
@@ -31,7 +35,7 @@
         recImport;
 
       # Define a function which imports some package set, applying my overlays.
-      pkgImport = nixpkgs: import nixpkgs {
+      pkgImport = nixpkgs: system: import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };
         overlays = (builtins.attrValues (importOverlays ./overlays)) ++ [
@@ -39,41 +43,64 @@
         ];
       };
 
-      # Import unstable and master package sets.
-      pkgs         = pkgImport nixpkgs;
-      unstablePkgs = pkgImport nixpkgs-unstable;
-
-      # Import all data.
-      shared  = nixpkgs.lib.importTOML ./data/shared.toml;
+      # Import shared and secret data.
+      shared  = importTOML ./data/shared.toml;
       secrets = importSecrets ./data/secret;
-
     in {
 
       ##########################################################################
-      #                                NixPkgs                                 #
+      #                                 NixOps                                 #
       ##########################################################################
 
-      # Attrset of custom nix packages.
-      packages.${system} = self.overlay pkgs pkgs;
 
-      # An overlay for including the above packages in some package set.
-      overlay = import ./packages;
-
-
-      ##########################################################################
-      #                              Home Manager                              #
-      ##########################################################################
-
-      # Attrset of custom home-manager modules.
-      hmModules =
+      # Attrset of deployable NixOps network configurations.
+      nixopsConfigurations =
         let
-          moduleList  = import ./modules/home-manager/list.nix;
-          profileList = import ./profiles/home-manager/list.nix;
-        in
-          pathsToImportedAttrs moduleList // {
-            profiles = pathsToImportedAttrs profileList;
-          };
+          # Import unstable and master package sets for NixOS.
+          pkgs         = pkgImport nixpkgs "x86_64-linux";
+          unstablePkgs = pkgImport nixpkgs-unstable "x86_64-linux";
+        in {
+          /* NOTE (06/02/21)
+             NixOps master only supports deploying from the fixed flake output
+             fragment of `nixopsConfigurations.default`. This behaviour is hard-
+             -coded in `eval-machines-info.nix`. Later, I hope a single flake
+             will be able to support deploying multiple networks by selecting
+             the respective flake output fragment e.g.
 
+             # $ nixops create -d my-network --flake "path/to/flake#my-net"
+          */
+          default = {
+            inherit nixpkgs; # REVIEW
+            # Configuration shared between all machines.
+            defaults =
+              { ... }:
+              {
+                # Augment standard NixOS module arguments.
+                _module.args = {
+                  inherit unstablePkgs base16 shared secrets utilities;
+                };
+                # Make available various NixOS modules.
+                imports = import ./modules/nixos/list.nix ++ [
+                  (home-manager.nixosModules.home-manager)
+                  # Inline module to set defaults.
+                  {
+                    imports = [
+                      ./profiles/nixos/common.nix
+                    ];
+                    nix.nixPath = [
+                      "nixpkgs=${nixpkgs}"
+                      "nixpkgs-unstable=${nixpkgs-unstable}"
+                    ];
+                    # NOTE This seems to work in lieu of a specialArgs option.
+                    nixpkgs.pkgs = pkgs;
+                  }
+                ];
+              };
+          # Import the network configuration's nix expression.
+          } // import ./configs/nixops/default.nix (inputs // {
+            inherit pkgs unstablePkgs secrets shared utilities;
+          });
+        };
 
       ##########################################################################
       #                                 NixOS                                  #
@@ -84,17 +111,19 @@
         let
           moduleList  = import ./modules/nixos/list.nix;
           profileList = import ./profiles/nixos/list.nix;
-        in
-          pathsToImportedAttrs moduleList // {
-            profiles = pathsToImportedAttrs profileList;
-          };
+        in pathsToImportedAttrs moduleList // {
+          profiles = pathsToImportedAttrs profileList;
+        };
 
-      # Attrset NixOS configurations buildable with nixos-rebuild.
+      # Attrset NixOS configurations buildable via nixos-rebuild.
       nixosConfigurations =
         let
-          importConfiguration = hostName: nixpkgs.lib.nixosSystem {
+          system       = "x86_64-linux";
+          pkgs         = pkgImport nixpkgs system;
+          unstablePkgs = pkgImport nixpkgs system;
+          # Import function which takes a hostname and returns a config artifact
+          importConfiguration = hostName: nixosSystem {
             inherit system;
-
             /* Things in these sets are passed to NixOS modules and made
                accessible in the top-level arguments i.e.
                `{ config, pkgs, lib, usr, base16, unstablePkgs, ... }:`
@@ -103,113 +132,110 @@
              */
             specialArgs = { inherit pkgs shared secrets; };
             extraArgs   = { inherit base16 unstablePkgs utilities; };
-
             # Make available various NixOS modules,
-            modules = let
-              # Home Manager's NixOS module.
-              inherit (home.nixosModules) home-manager;
-              # Simple inline module for sane defaults.
-              common = {
-                imports = [./profiles/nixos/common.nix];
+            modules = (import ./modules/nixos/list.nix) ++ [
+              (home-manager.nixosModules.home-manager)
+              # Inline module to set defaults and import the host's config.
+              {
+                imports = [
+                  (./configs/nixos + "/${hostName}.nix")
+                  ./profiles/nixos/common.nix
+                ];
                 nix.nixPath = [
                   "nixpkgs=${nixpkgs}"
                   "nixpkgs-unstable=${nixpkgs-unstable}"
                 ];
                 networking.hostName = hostName;
-              };
-              # The host's configuration (it's just a module).
-              host = import (./configs/nixos + "/${hostName}.nix");
-              # All the NixOS modules defined in this repo.
-              flakeModules = import ./modules/nixos/list.nix;
-
-            in flakeModules ++ [ home-manager common host ];
+              }
+            ];
           };
-        in recImport {
-          dir = ./configs/nixos;
-          _import = importConfiguration;
+        in recImport { _import = importConfiguration;  dir = ./configs/nixos; };
+
+      ##########################################################################
+      #                              Home Manager                              #
+      ##########################################################################
+
+      # Attrset of custom Home Manager modules.
+      homeManagerModules =
+        let
+          moduleList  = import ./modules/home-manager/list.nix;
+          profileList = import ./profiles/home-manager/list.nix;
+        in pathsToImportedAttrs moduleList // {
+          profiles = pathsToImportedAttrs profileList;
+        };
+
+      # Attrset of home-manager configurations installable with:
+      # `nix build .#LA-373.activationPackage; ./result/activate`
+      homeManagerConfigurations =
+        let
+          system       = "x86_64-darwin";
+          pkgs         = pkgImport nixpkgs system;
+          unstablePkgs = pkgImport nixpkgs-unstable system;
+        in
+        {
+          LA-373 = homeManagerConfiguration {
+            inherit system pkgs;
+            username = "luke.bentley.fox";
+            homeDirectory = "/User/luke.bentley.fox";
+            extraSpecialArgs = {
+              inherit unstablePkgs utilities shared secrets;
+            };
+            configuration = {
+              imports = (import ./modules/home-manager/list.nix) ++ [
+                (base16.homeManagerModules.base16)
+                ./profiles/home-manager/common.nix
+              ];
+            };
+          };
         };
 
       ##########################################################################
-      #                                 NixOps                                 #
-      ##########################################################################
-      #
-      # NOTE (06/02/21)
-      # NixOps master only supports deploying from the fixed flake output
-      # fragment of `nixopsConfigurations.default`. This behaviour is hardcoded
-      # in `eval-machines-info.nix`. Later, I hope flakes will support multiple
-      # networks, each deployable by selecting it's flake output fragment e.g.
-      #
-      # $ nixops create -d my-net --flake "path/to/flake#my-net"
-
-      # Attrset of deployable NixOps network configurations.
-      nixopsConfigurations.default = {
-        inherit nixpkgs; # REVIEW
-
-        # Configuration shared between all machines.
-        defaults =
-          { ... }:
-          {
-            # Augment standard NixOS module arguments.
-            _module.args = {
-              inherit unstablePkgs base16 shared secrets utilities;
-            };
-
-            # Make available various NixOS modules.
-            imports = let
-              # Home Manager's NixOS module.
-              inherit (home.nixosModules) home-manager;
-              # Simple inline module for sane defaults.
-              common = {
-                imports = [./profiles/nixos/common.nix];
-                nix.nixPath = [
-                  "nixpkgs=${nixpkgs}"
-                  "nixpkgs-unstable=${nixpkgs-unstable}"
-                ];
-                # NOTE This seems to work in lieu of a specialArgs option.
-                nixpkgs.pkgs = pkgs;
-              };
-              # All the NixOS modules in this repo.
-              flakeModules = import ./modules/nixos/list.nix;
-            in flakeModules ++ [ home-manager common ];
-          };
-
-      # Import the nixops network configs.
-      } // import ./configs/nixops (inputs // {
-        inherit pkgs unstablePkgs secrets shared utilities;
-      });
-
-      ##########################################################################
-      #                   Development/Deployment Environment                   #
+      #                           NixPkgs Overlay                              #
       ##########################################################################
 
-      # A Nix Shell containing a nixops capable of deploying the above networks.
-      devShell.${system} = pkgs.mkShell {
-        nativeBuildInputs = [
-          pkgs.git
-          pkgs.git-crypt
-          pkgs.nixFlakes
-          nixops-plugged.packages.${system}.nixops-plugged#nixops-hetznercloud
-        ];
+      # An overlay for including my custom packages in some package set.
+      overlay = import ./packages;
 
-        shellHook = ''
-          mkdir -p data/secret
+    # Now follows a bunch of outputs multiplexed for common systems.
+    } // eachDefaultSystem (system:
+      let
+        pkgs = pkgImport nixpkgs system;
+      in {
 
-          # use gpg-agent to handle SSH in this shell
-          export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-          gpgconf --launch gpg-agent
-        '';
+        # Attrset of custom nix packages.
+        packages = self.overlay pkgs pkgs;
 
-        NIX_CONF_DIR = let
-          current = nixpkgs.lib.optionalString
-            (builtins.pathExists /etc/nix/nix.conf)
-            (builtins.readFile /etc/nix/nix.conf);
+        ########################################################################
+        #                   Development/Deployment Environment                 #
+        ########################################################################
 
-          nixConf = pkgs.writeTextDir "opt/nix.conf" ''
-            ${current}
-            experimental-features = nix-command flakes ca-references
+        # A Nix Shell containing a nixops capable of deploying my network.
+        devShell = pkgs.mkShell {
+          nativeBuildInputs = [
+            pkgs.git
+            pkgs.git-crypt
+            pkgs.nixFlakes
+            nixops-plugged.packages.${system}.nixops-plugged#nixops-hetznercloud
+          ];
+          shellHook = ''
+            mkdir -p data/secret
+
+            # use gpg-agent to handle SSH in this shell
+            export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+            gpgconf --launch gpg-agent
           '';
-        in "${nixConf}/opt";
-      };
-
-  };
+          NIX_CONF_DIR =
+            let
+              current =
+                nixpkgs.lib.optionalString
+                  (builtins.pathExists /etc/nix/nix.conf)
+                  (builtins.readFile /etc/nix/nix.conf);
+              nixConf = pkgs.writeTextDir "opt/nix.conf" ''
+                ${current}
+                experimental-features = nix-command flakes ca-references
+              '';
+            in "${nixConf}/opt";
+        };
+      }
+    );
 }
