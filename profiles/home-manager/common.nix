@@ -1,10 +1,6 @@
-{ nixosConfig, config, lib, pkgs, ... }:
-
+{ config, lib, pkgs, ... }:
 let
-  inherit (nixosConfig.modules.user-manager) users;
-  inherit (config.home) username;
   inherit (lib) mkDefault;
-
 in
 {
 
@@ -74,4 +70,5 @@ in
     config.global.warn_timeout = "1m";
   };
 
+  home.stateVersion = "21.05";
 }

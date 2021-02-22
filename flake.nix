@@ -5,6 +5,7 @@
     nixpkgs.url          = "nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "nixpkgs/master";
     home-manager.url     = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
     emacs.url            = "github:nix-community/emacs-overlay";
     nixops-plugged.url   = "github:lukebfox/nixops-plugged";
     base16.url           = "github:lukebfox/base16-nix";
@@ -174,6 +175,7 @@
         {
           LA-373 = homeManagerConfiguration {
             inherit system pkgs;
+            check = false;
             username = "luke.bentley.fox";
             homeDirectory = "/User/luke.bentley.fox";
             extraSpecialArgs = {
