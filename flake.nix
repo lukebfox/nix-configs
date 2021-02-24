@@ -179,12 +179,13 @@
             username = "luke.bentley.fox";
             homeDirectory = "/User/luke.bentley.fox";
             extraSpecialArgs = {
-              inherit unstablePkgs utilities shared secrets;
+              inherit pkgs unstablePkgs utilities shared secrets;
             };
             configuration = {
               imports = (import ./modules/home-manager/list.nix) ++ [
                 (base16.homeManagerModules.base16)
                 ./profiles/home-manager/common.nix
+                ./configs/home-manager/standalone.nix
               ];
             };
           };

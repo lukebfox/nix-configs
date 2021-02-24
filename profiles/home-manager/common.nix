@@ -4,6 +4,8 @@ let
 in
 {
 
+  nixpkgs.config.allowUnfree = true;
+
   # Default theme
   themes.base16 = lib.mkDefault {
     scheme  = "unclaimed";

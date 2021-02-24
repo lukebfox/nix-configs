@@ -1,4 +1,4 @@
-{ ... }:
+{ shared, ... }:
 {
   imports = [
     ../../profiles/nixos/hardened
