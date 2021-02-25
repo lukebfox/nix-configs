@@ -220,6 +220,7 @@
         # A nix shell containing a nixops capable of deploying my network.
         devShell = pkgs.mkShell {
           nativeBuildInputs = [
+            pkgs.gnupg
             pkgs.git
             pkgs.git-crypt
             pkgs.nixFlakes
