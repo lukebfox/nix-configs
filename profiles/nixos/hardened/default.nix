@@ -105,9 +105,6 @@
   # REVIEW better approach using capabilities.
   security.sudo.enable = true;
 
-  # Harden /proc mountpoint with hidepid.
-  security.hideProcessInformation = true;
-
   # Prevent loading of kernel modules during runtime.
   security.lockKernelModules = true;
 }

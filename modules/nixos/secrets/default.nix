@@ -2,7 +2,7 @@
 
 let
   inherit (builtins) attrValues;
-  inherit (lib) mapAttrs' mkIf mkMerge mkOption mkEnableOption optional types hasAttr readFile;
+  inherit (lib) mapAttrs' mkIf mkMerge mkOption mkEnableOption optional types readFile;
 
   # To encrypt secrets we must use the ssh host public key of the target machine.
   # This module supports two methods of deployment, nixops and nixos-rebuild.
@@ -11,9 +11,9 @@ let
   # and the public host key is not available within nix, until we read it in.
   inherit (config.networking) hostName;
   inherit (config.services.openssh) knownHosts;
-  publicKey = if hasAttr hostName knownHosts
+  publicKey = if knownHosts?hostName
               then knownHosts.${hostName}.publicKey
-              else shared.hosts.erebus.ssh-public-key;
+              else shared.hosts.${hostName}.ssh-public-key;
 
   cfg = config.modules.secrets;
 

@@ -1,0 +1,4 @@
+{ ... }:
+{
+  modules.targets.isLinux = true;
+}

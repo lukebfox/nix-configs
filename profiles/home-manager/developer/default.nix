@@ -1,19 +1,32 @@
 { config, lib, pkgs, shared, ... }:
 let
-  inherit (lib) mkDefault;
-  inherit (shared.network) domain;
+  inherit (lib) mkDefault fileContents;
   inherit (config.home) username;
-  inherit (config.accounts.email.accounts.${username}) address;
 
+  address = fileContents
+    (../../../data/secret/user + "/${username}/email-address");
 in
 {
-  modules.programs.kitty.enable = true;
-  modules.programs.emacs.enable = true;
-  modules.programs.zsh.enable = true;
-  modules.programs.git = {
-    enable = true;
-    userName = username;
-    userEmail = address;
-    signingKey = address;
+  modules = {
+    editor = {
+      enable = true;
+      emacs.enable = true;
+    };
+    shell = {
+      enable = true;
+      zsh.enable = true;
+    };
+    terminal = {
+      kitty.enable = true;
+    };
+    tools = {
+      git = {
+        enable = true;
+        userName = username;
+        userEmail = address;
+        signingKey = address;
+      };
+      colorls.enable = true;
+    };
   };
 }

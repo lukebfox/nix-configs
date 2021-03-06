@@ -1,16 +1,16 @@
-{ config, lib, pkgs, shared, secrets, ... }:
+# marking as broken
+{ config, lib, pkgs, shared, ... }:
 let
   inherit (shared.network) domain;
-  inherit (secrets) synapse-registration-secret;
 in
 {
   imports = [ ../nginx/reverse-proxy.nix ];
 
-  #
   services.matrix-synapse = {
     enable = true;
     server_name = domain;
-    registration_shared_secret = synapse-registration-secret;
+    # unsafe secret
+    registration_shared_secret = lib.fileContents ../../../../data/secret/synapse-registration-secret;
     listeners = [
       {
         port = 8008;

@@ -152,16 +152,6 @@ in rec {
       overlayPaths = map fullPath (attrNames (readDir overlayDir));
     in pathsToImportedAttrs overlayPaths;
 
-  # wysiwyg (depth 0)
-  importSecrets = secretsDir:
-    filterMapAttrs
-      (_: v: v != null)
-      (n: v:
-        if n != "default.nix" && v == "regular"
-        then nameValuePair (n)  (fileContents (secretsDir + "/${n}"))
-        else nameValuePair ("") (null))
-      (readDir secretsDir);
-
   # Used in homes, hosts and networks for generating attrset of configurations
   # from, using an import function specific to the type of configuration.
   recImport = { dir, _import ? base: import "${dir}/${base}.nix" }:

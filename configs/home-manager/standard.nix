@@ -3,7 +3,6 @@
 { ... }:
 {
   imports = [
-    ../../profiles/home-manager/email
     ../../profiles/home-manager/desktop
     ../../profiles/home-manager/developer
   ];

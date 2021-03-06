@@ -4,14 +4,10 @@
 , unstablePkgs
 , base16
 , shared
-, secrets
 , utilities
 , ... } @ args:
-
 let
   inherit (lib) mkOption types;
-  inherit (utilities) recImport importSecrets;
-
 in
 {
 
@@ -22,7 +18,7 @@ in
       # Make various NixOS specialArgs available to Home Manager
       # modules as well. Would like to keep this list small!
       specialArgs = { inherit (args)
-        unstablePkgs utilities shared secrets;
+        unstablePkgs utilities shared;
       };
       # Make custom home-manager modules available.
       modules = (import ../../../modules/home-manager/list.nix) ++ [

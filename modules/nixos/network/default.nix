@@ -1,4 +1,4 @@
-{ config, lib, pkgs, secrets, utilities, ... }:
+{ config, lib, pkgs, utilities, ... }:
 
 let
   inherit (builtins) readDir;

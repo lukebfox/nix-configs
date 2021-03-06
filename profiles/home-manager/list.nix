@@ -1,7 +1,14 @@
 [
   ./desktop
+
   ./developer
+
+  ./standalone/darwin.nix
+  ./standalone/linux.nix
+
   ./themes/monokai.nix
-  ./luminance
-  ./mac-sync-app-folder.nix
+  ./themes/gruvbox-dark.nix
+  ./themes/gruvbox-light.nix
+
+  ./work
 ]

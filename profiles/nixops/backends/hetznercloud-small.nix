@@ -1,8 +1,8 @@
-{ secrets, ... }:
+{ lib, ... }:
 {
   deployment.targetEnv = "hetznercloud";
   deployment.hetznerCloud = {
-    apiToken = secrets.hetznercloud-api-token;
+    apiToken = lib.fileContents ../../../data/secret/hetznercloud-api-token;
     location = "nbg1";
     serverType = "cx11";
   };

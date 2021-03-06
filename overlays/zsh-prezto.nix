@@ -9,11 +9,10 @@ final: prev:
       sha256 = "18ig6b5c023iwv4i6dn1zd4gsfiyh953l3mzq3171v9qwf55myiw";
       fetchSubmodules = true;
     };
-  in prev.zsh-prezto.overrideAttrs (_: {
-    installPhase = ''
-      mkdir -p $out/contrib
-      cp ./* $out/ -R
-      cp ${zsh-prezto-contrib}/* $out/contrib/ -R
+  in prev.zsh-prezto.overrideAttrs (old: {
+    installPhase = old.installPhase + ''
+      mkdir -p $out/share/zsh-prezto/contrib
+      cp -R ${zsh-prezto-contrib}/* $out/share/zsh-prezto/contrib/
     '';
   });
 }

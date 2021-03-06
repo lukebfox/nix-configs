@@ -1,0 +1,17 @@
+nix-env -qAp
+cd ..
+xcode-select --reset
+sudo xcode-select --reset
+nix
+~/.nix-profile/etc/profile.d/nix.sh
+ls -al~/.nix-profile/etc/profile.d/nix.sh
+ls -al ~/.nix-profile/etc/profile.d/nix.sh
+~/.nix-profile/etc/profile.d/nix.sh
+whoami
+. ~/.nix-profile/etc/profile.d/nix.sh
+nix build ".#homeManagerConfigurations.LA-373.activationPackage"
+./result/activate
+nix-env -u git-crypt
+./result/activate
+nix-env -e git-crypt
+./result/activate

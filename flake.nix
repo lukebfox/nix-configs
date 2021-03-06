@@ -6,8 +6,8 @@
     nixpkgs-unstable.url = "nixpkgs/master";
     home-manager.url     = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    emacs.url            = "github:nix-community/emacs-overlay";
     nixops-plugged.url   = "github:lukebfox/nixops-plugged";
+    emacs.url            = "github:nix-community/emacs-overlay";
     base16.url           = "github:lukebfox/base16-nix";
     flake-utils.url      = "github:numtide/flake-utils";
   };
@@ -15,11 +15,11 @@
   outputs = { self
             , nixpkgs
             , nixpkgs-unstable
-            , base16
-            , emacs
-            , flake-utils
             , home-manager
             , nixops-plugged
+            , emacs
+            , base16
+            , flake-utils
             , ... } @ inputs:
     let
       # Bring some lib functions into scope.
@@ -45,9 +45,8 @@
         ];
       };
 
-      # Import shared and secret data.
+      # Import shared data.
       shared  = importTOML ./data/shared.toml;
-      secrets = importSecrets ./data/secret;
     in {
 
       ##########################################################################
@@ -77,7 +76,7 @@
               {
                 # Augment standard NixOS module arguments.
                 _module.args = {
-                  inherit unstablePkgs base16 shared secrets utilities;
+                  inherit unstablePkgs base16 shared utilities;
                 };
                 # Make available various NixOS modules.
                 imports = import ./modules/nixos/list.nix ++ [
@@ -98,7 +97,7 @@
               };
           # Import the network configuration's nix expression.
           } // import ./configs/nixops/default.nix (inputs // {
-            inherit pkgs unstablePkgs secrets shared utilities;
+            inherit pkgs unstablePkgs shared utilities;
           });
         };
 
@@ -130,7 +129,7 @@
                specialArgs get evaluated when resolving module structure.
                `_module.args` is built from specialArgs and extraArgs.
              */
-            specialArgs = { inherit pkgs shared secrets; };
+            specialArgs = { inherit pkgs shared; };
             extraArgs   = { inherit base16 unstablePkgs utilities; };
             # Make available various NixOS modules,
             modules = (import ./modules/nixos/list.nix) ++ [
@@ -165,7 +164,7 @@
         };
 
       # Attrset of home-manager configurations installable with:
-      # `nix build .#LA-373.activationPackage; ./result/activate`
+      # `nix build .#<name?>.activationPackage && ./result/activate`
       homeManagerConfigurations =
         let
           system       = "x86_64-darwin";
@@ -177,15 +176,16 @@
             inherit system pkgs;
             check = false;
             username = "luke.bentley.fox";
-            homeDirectory = "/User/luke.bentley.fox";
+            homeDirectory = "/Users/luke.bentley.fox";
             extraSpecialArgs = {
-              inherit pkgs unstablePkgs utilities shared secrets;
+              inherit pkgs unstablePkgs utilities shared;
             };
             configuration = {
               imports = (import ./modules/home-manager/list.nix) ++ [
                 (base16.homeManagerModules.base16)
                 ./profiles/home-manager/common.nix
-                ./configs/home-manager/standalone.nix
+                ./profiles/home-manager/targets/darwin.nix # TODO use `system` to automate
+                ./configs/home-manager/luminance.nix
               ];
             };
           };
