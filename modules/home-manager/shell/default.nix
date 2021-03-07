@@ -44,7 +44,7 @@ in
           myip = "${pkgs.curl}/bin/curl http://ipecho.net/plain; echo";
           ngco = "sudo nix-collect-garbage --delete-old";
           nrs  = "sudo nixos-rebuild switch";
-          nbhm = "nix build '.#homeManagerConfigurations.luminance.activationPackage' && ./result/activate;"; #FIXME generic
+          nbhm = "nix build '.#homeManagerConfigurations.luminance.activationPackage' && ./result/activate;"; #TODO make generic
           j    = "ssh jump -t luminance-jumpcli ssh";
         };
         shellGlobalAliases = {
