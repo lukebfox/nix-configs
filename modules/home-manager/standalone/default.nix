@@ -1,11 +1,11 @@
 # Home-manager module to iron out any issues when deploying standalone configurations.
 # This means any configurations destined for systems unmanaged by nix (via nixos/nix-darwin)
 # e.g darwin, or fedora.
-{ config, lib, pkgs, ... }:
+{ system, config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf mkMerge;
 
-  cfg = config.modules.targets;
+  cfg = config.modules.standalone;
 
   initExtra = ''
    . "$HOME/.nix-profile/etc/profile.d/nix.sh"
@@ -14,22 +14,19 @@ let
 
 in
 {
-  options = {
-    modules.targets.standalone = mkEnableOption "Enable home-manager module for non-nixos systems.";
-    modules.targets.isDarwin = mkEnableOption "Enable home-manager module for unmanaged darwin systems.";
-    modules.targets.isLinux  = mkEnableOption "Enable home-manager module for unmanaged linux systems.";
-  };
+  options.modules.standalone.enable = mkEnableOption "Enable home-manager module for non-nixos systems.";
 
-  config = mkIf cfg.standalone (mkMerge [
+
+  config = mkIf cfg.enable (mkMerge [
 
     {
       programs.bash = { inherit initExtra; };
       programs.zsh  = { inherit initExtra; };
     }
 
-    (mkIf cfg.isLinux {}) # TODO
+    (mkIf (system == "x86_64-linux") {})
 
-    (mkIf cfg.isDarwin {
+    (mkIf (system == "x86_64-darwin") {
       # Create launchpad entries
       home.activation = {
         copyApplications =

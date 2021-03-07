@@ -36,6 +36,9 @@
         pathsToImportedAttrs
         recImport;
 
+      # Import shared data.
+      shared  = importTOML ./data/shared.toml; # REVIEW justify toml over nix
+
       # Define a function which imports some package set, applying my overlays.
       pkgImport = nixpkgs: system: import nixpkgs {
         inherit system;
@@ -45,8 +48,6 @@
         ];
       };
 
-      # Import shared data.
-      shared  = importTOML ./data/shared.toml;
     in {
 
       ##########################################################################
@@ -69,7 +70,8 @@
              # $ nixops create -d my-network --flake "path/to/flake#my-net"
           */
           default = {
-            inherit nixpkgs; # REVIEW
+            # REVIEW understand why this works
+            inherit nixpkgs;
             # Configuration shared between all machines.
             defaults =
               { ... }:
@@ -114,14 +116,16 @@
           profiles = pathsToImportedAttrs profileList;
         };
 
-      # Attrset NixOS configurations buildable via nixos-rebuild.
+      # Attrset NixOS configurations installable locally with:
+      # `nixos-rebuild --flake .#<name?> switch`
+      # or with nixFlakes:
+      # `nixos-rebuild switch`
       nixosConfigurations =
         let
           system       = "x86_64-linux";
           pkgs         = pkgImport nixpkgs system;
           unstablePkgs = pkgImport nixpkgs system;
-          # Import function which takes a hostname and returns a config artifact
-          importConfiguration = hostName: nixosSystem {
+          mkNixosConfiguration = hostName: nixosSystem {
             inherit system;
             /* Things in these sets are passed to NixOS modules and made
                accessible in the top-level arguments i.e.
@@ -148,7 +152,7 @@
               }
             ];
           };
-        in recImport { _import = importConfiguration;  dir = ./configs/nixos; };
+        in recImport { _import = mkNixosConfiguration; dir = ./configs/nixos; };
 
 
       ##########################################################################
@@ -163,32 +167,40 @@
           profiles = pathsToImportedAttrs profileList;
         };
 
-      # Attrset of home-manager configurations installable with:
+      # Attrset of home-manager configurations installable locally with:
       # `nix build .#<name?>.activationPackage && ./result/activate`
       homeManagerConfigurations =
         let
-          system       = "x86_64-darwin";
-          pkgs         = pkgImport nixpkgs system;
-          unstablePkgs = pkgImport nixpkgs-unstable system;
+          mkHomeManagerConfiguration =
+            { system, configuration, username, homeDirectory }:
+            let
+              pkgs         = pkgImport nixpkgs system;
+              unstablePkgs = pkgImport nixpkgs-unstable system;
+            in
+            homeManagerConfiguration {
+              inherit system pkgs username homeDirectory;
+              check = false;
+              extraSpecialArgs = {
+                inherit system pkgs unstablePkgs utilities shared;
+              };
+              configuration = {
+                imports = (import ./modules/home-manager/list.nix) ++ [
+                  (base16.homeManagerModules.base16)
+                  ./profiles/home-manager/common.nix
+                  ./profiles/home-manager/standalone.nix
+                  configuration
+                ];
+              };
+            };
         in
         {
-          LA-373 = homeManagerConfiguration {
-            inherit system pkgs;
-            check = false;
-            username = "luke.bentley.fox";
-            homeDirectory = "/Users/luke.bentley.fox";
-            extraSpecialArgs = {
-              inherit pkgs unstablePkgs utilities shared;
+          luminance = mkHomeManagerConfiguration
+            {
+              system        = "x86_64-darwin";
+              configuration = ./configs/home-manager/luminance.nix;
+              username      = "luke.bentley.fox";
+              homeDirectory = "/Users/luke.bentley.fox";
             };
-            configuration = {
-              imports = (import ./modules/home-manager/list.nix) ++ [
-                (base16.homeManagerModules.base16)
-                ./profiles/home-manager/common.nix
-                ./profiles/home-manager/targets/darwin.nix # TODO use `system` to automate
-                ./configs/home-manager/luminance.nix
-              ];
-            };
-          };
         };
 
 

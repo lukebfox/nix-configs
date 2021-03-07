@@ -18,7 +18,7 @@
   ./terminal/kitty
   ./terminal/iterm2
 
-  ./targets
+  ./standalone
 
   ./tools/colorls
   ./tools/git

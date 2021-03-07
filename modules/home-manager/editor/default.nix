@@ -38,7 +38,7 @@ in
 
       fonts.fontconfig.enable = true;
 
-      home.sessionVariables = {
+      home.sessionVariables = mkIf (!config.modules.standalone.enable) {
         VISUAL = "emacsclient";    # open file in an existing frame
         EDITOR = "emacsclient -t"; # connect to server in tty
       };
@@ -50,7 +50,8 @@ in
         pkgs.sqlite # required for org-roam
       ];
 
-      home.file.".doom.d" = {
+      # FIXME onChange to aggregate comparisons and fire once
+      home.file.".doom.d/" = {
         source = toString ./.doom.d;
         recursive = true;
         onChange = ''

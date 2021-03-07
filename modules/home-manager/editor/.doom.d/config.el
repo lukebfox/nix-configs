@@ -22,7 +22,7 @@
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
+;; `load-theme' function.
 (setq doom-theme 'doom-monokai-classic)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -50,24 +50,32 @@
   :config
   (setq md-roam-file-extension-single "md"))
 
-(setq org-directory "~/Projects/org/")
-(setq org-roam-directory "~/Projects/org/roam/")
-(setq org-roam-capture-templates
-      '(("d" "default" plain #'org-roam-capture--get-point
-             "%?"
-             :file-name "%<%Y%m%d%H%M%S>-${slug}"
-             :head "#+title: ${title}\n"
-             :unnarrowed t)
-        ("i" "Issue" plain #'org-roam-capture--get-point
-             "%?"
-             :file-name "%<%Y%m%d%H%M%S>-ticket_${slug}"
-             :head "#+title: Issue {title}: %^{Description}\nEnv: %^{Environment}\nPriority: %^{Priority}\n\n"
-             :unnarrowed t)
-        ("p" "Procedure" plain #'org-roam-capture--get-point
-             "%?"
-             :file-name "%<%Y%m%d%H%M%S>-${slug}"
-             :head "#+title: ${title}\n"
-             :unnarrowed t)))
+(use-package! org
+  :init
+  (setq org-directory "~/Projects/org/"))
+
+(use-package! org-roam
+:init
+  ;; add markdown extension to org-roam-file-extensions list
+  (setq org-roam-file-extensions '("org" "md")
+        org-roam-title-sources '((mdtitle title mdheadline headline) (mdalias alias))
+        org-roam-directory "~/Projects/org/roam/"
+        org-roam-capture-templates
+        '(("d" "default" plain #'org-roam-capture--get-point
+               "%?"
+               :file-name "%<%Y%m%d%H%M%S>-${slug}"
+               :head "#+title: ${title}\n"
+               :unnarrowed t)
+          ("i" "Issue" plain #'org-roam-capture--get-point
+               "%?"
+               :file-name "%<%Y%m%d%H%M%S>-ticket_${slug}"
+               :head "#+title: Issue {title}: %^{Description}\nEnv: %^{Environment}\nPriority: %^{Priority}\n\n"
+               :unnarrowed t)
+          ("p" "Procedure" plain #'org-roam-capture--get-point
+               "%?"
+               :file-name "%<%Y%m%d%H%M%S>-${slug}"
+               :head "#+title: ${title}\n"
+               :unnarrowed t))))
 
 ;; Projectile
 (setq projectile-project-search-path '("~/Projects/"))
