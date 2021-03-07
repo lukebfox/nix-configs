@@ -4,7 +4,7 @@ let
   inherit (config.lib.base16) theme;
   inherit (lib) mkIf;
 
-in mkIf config.modules.desktop.sway.enable {
+in mkIf config.modules.desktop-manager.sway.enable {
 
   # Configure environmental variables.
   home.sessionVariables.TERMINAL = "${pkgs.termite}/bin/termite";
@@ -18,34 +18,34 @@ in mkIf config.modules.desktop.sway.enable {
     iconName = "terminal";
     scrollbackLines = 10000;
     cursorShape = "block";
-    colorsExtra  = ''
-      foreground = #${theme.base05-hex}
-      foreground_bold = #${theme.base05-hex}
-      cursor = #${theme.base05-hex}
-      cursor_foreground = #${theme.base00-hex}
-      background = #${theme.base00-hex}
-      color0  = #${theme.base00-hex}
-      color1  = #${theme.base08-hex}
-      color2  = #${theme.base0B-hex}
-      color3  = #${theme.base0A-hex}
-      color4  = #${theme.base0D-hex}
-      color5  = #${theme.base0E-hex}
-      color6  = #${theme.base0C-hex}
-      color7  = #${theme.base05-hex}
-      color8  = #${theme.base03-hex}
-      color9  = #${theme.base08-hex}
-      color10 = #${theme.base0B-hex}
-      color11 = #${theme.base0A-hex}
-      color12 = #${theme.base0D-hex}
-      color13 = #${theme.base0E-hex}
-      color14 = #${theme.base0C-hex}
-      color15 = #${theme.base07-hex}
-      color16 = #${theme.base09-hex}
-      color17 = #${theme.base0F-hex}
-      color18 = #${theme.base01-hex}
-      color19 = #${theme.base02-hex}
-      color20 = #${theme.base04-hex}
-      color21 = #${theme.base06-hex}
+    colorsExtra  = with theme; ''
+      foreground = #${base05-hex}
+      foreground_bold = #${base05-hex}
+      cursor = #${base05-hex}
+      cursor_foreground = #${base00-hex}
+      background = #${base00-hex}
+      color0  = #${base00-hex}
+      color1  = #${base08-hex}
+      color2  = #${base0B-hex}
+      color3  = #${base0A-hex}
+      color4  = #${base0D-hex}
+      color5  = #${base0E-hex}
+      color6  = #${base0C-hex}
+      color7  = #${base05-hex}
+      color8  = #${base03-hex}
+      color9  = #${base08-hex}
+      color10 = #${base0B-hex}
+      color11 = #${base0A-hex}
+      color12 = #${base0D-hex}
+      color13 = #${base0E-hex}
+      color14 = #${base0C-hex}
+      color15 = #${base07-hex}
+      color16 = #${base09-hex}
+      color17 = #${base0F-hex}
+      color18 = #${base01-hex}
+      color19 = #${base02-hex}
+      color20 = #${base04-hex}
+      color21 = #${base06-hex}
     '';
   };
 }

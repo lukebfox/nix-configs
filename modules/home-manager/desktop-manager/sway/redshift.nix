@@ -4,7 +4,7 @@ let
   inherit (config.lib.base16) theme;
   inherit (lib) mkIf;
 
-in mkIf config.modules.desktop.sway.enable {
+in mkIf config.modules.desktop-manager.sway.enable {
 
   services.redshift = {
     enable = true;

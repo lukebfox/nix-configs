@@ -2,7 +2,7 @@
 let
     inherit (config.home) homeDirectory;
     inherit (config.xdg.userDirs) documents download pictures videos;
-    inherit (config.modules.desktop.awesome.defaultPrograms.files) exec;
+    inherit (config.modules.desktop-manager.awesome.defaultPrograms.files) exec;
     inherit (pkgs) writeText;
 
 in writeText "awesome-widgets-xdg_folders" ''

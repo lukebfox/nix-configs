@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-	inherit (config.modules.desktop.awesome.widgets.email)
+	inherit (config.modules.desktop-manager.awesome.widgets.email)
 		emailAddress
 		emailAppPassword
 		imapServer

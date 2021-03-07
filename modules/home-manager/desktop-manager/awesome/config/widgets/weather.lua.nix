@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  inherit (config.modules.desktop.awesome.widgets.weather)
+  inherit (config.modules.desktop-manager.awesome.widgets.weather)
     apiToken
     cityId
     refreshInterval;

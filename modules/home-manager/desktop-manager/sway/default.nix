@@ -1,3 +1,4 @@
+# Haven't used this in a while so YMMV but should have lots of useful stuff in still.
 { nixosConfig
 , config
 , lib

@@ -60,7 +60,7 @@ in
 
     modules.desktop-manager.awesome.defaultPrograms.files    = defaultProgramOptions;
 
-    # modules.desktop.awesome.components = {};
+    # TODO modules.desktop-manager.awesome.components
 
     modules.desktop-manager.awesome.widgets = {
       email = {

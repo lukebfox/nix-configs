@@ -23,6 +23,7 @@ in
 
     desktop-manager = {
       enable = true;
+      multimedia.enable = true;
       awesome = {
         enable = true;
         defaultPrograms = {

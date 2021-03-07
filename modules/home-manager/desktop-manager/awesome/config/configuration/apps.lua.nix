@@ -1,6 +1,6 @@
 { nixosConfig, config, lib, pkgs, utilities, ... }:
 let
-  inherit (config.modules.desktop.awesome) defaultPrograms;
+  inherit (config.modules.desktop-manager.awesome) defaultPrograms;
   inherit (pkgs) writeText;
 
 in writeText "awesome-apps-config" ''

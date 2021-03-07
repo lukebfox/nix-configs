@@ -183,7 +183,7 @@ let
 
   colours = base16template "waybar";
 
-in mkIf config.modules.desktop.sway.enable {
+in mkIf config.modules.desktop-manager.sway.enable {
 
   programs.waybar = {
     enable = true;

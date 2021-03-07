@@ -12,6 +12,8 @@ in
     modules.desktop-manager.enable =
       mkEnableOption "Enable home-manager desktop module.";
 
+    modules.desktop-manager.multimedia.enable =
+      mkEnableOption "Enable home-manager desktop multimedia module.";
   };
 
   ##### implementation
