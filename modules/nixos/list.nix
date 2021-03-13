@@ -1,7 +1,7 @@
 [
   ./development
   ./gaming
-  ./gaming/valheim-server
+  ./gaming/valheim-server.nix
   ./graphical
   ./home-manager
   ./network

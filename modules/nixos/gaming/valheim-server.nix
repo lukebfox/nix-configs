@@ -33,7 +33,7 @@ in
     };
 
   };
-  config = {
+  config = mkIf cfg.enable {
 
     users.users.valheim = {
       home = "/var/lib/valheim";
@@ -56,7 +56,7 @@ in
         ExecStart = ''
           ${pkgs.glibc}/lib/ld-linux-x86-64.so.2 ./valheim_server.x86_64 \
             -name "${cfg.serverName}" \
-            -port ${cfg.port} \
+            -port ${toString cfg.port} \
             -world "${cfg.worldName}" \
             -password "${cfg.password}" \
             -public 1

@@ -3,7 +3,9 @@ let
   inherit (shared.network) domain;
 in
 {
-  imports = [ ../nginx/reverse-proxy.nix ];
+  imports = [ ../acme/dns-challenge.nix ];
+
+  networking.firewall.allowedTCPPorts = [ 3012 8812 ];
 
   # Bitwarden server
   services.bitwarden_rs = {
@@ -21,29 +23,8 @@ in
     };
   };
 
-  # Nginx reverse proxy entry
-  services.nginx.virtualHosts."bitwarden.${domain}" = {
-    useACMEHost = domain;
-    forceSSL = true;
-    locations = {
-      "/" = {
-        proxyPass = "http://localhost:8812";
-        proxyWebsockets = true;
-      };
-      "/notifications/hub" = {
-        proxyPass = "http://localhost:3012";
-        proxyWebsockets = true;
-      };
-      "/notifications/hub/negotiate" = {
-        proxyPass = "http://localhost:8812";
-        proxyWebsockets = true;
-      };
-    };
-  };
-
   environment.systemPackages = [ pkgs.bitwarden_rs-vault ];
 
   # Let Bitwarden access the wildcard SSL certificates managed by ACME.
   users.groups.acme.members = ["bitwarden_rs"];
-
 }

@@ -1,7 +1,7 @@
 { config, lib, pkgs, unstablePkgs, shared, ... }:
 
 let
-  inherit (builtins) attrValues;
+  inherit (builtins) attrValues hasAttr;
   inherit (lib) mapAttrs' mkIf mkMerge mkOption mkEnableOption optional types readFile;
 
   # To encrypt secrets we must use the ssh host public key of the target machine.
@@ -11,7 +11,7 @@ let
   # and the public host key is not available within nix, until we read it in.
   inherit (config.networking) hostName;
   inherit (config.services.openssh) knownHosts;
-  publicKey = if knownHosts?hostName
+  publicKey = if hasAttr hostName knownHosts
               then knownHosts.${hostName}.publicKey
               else shared.hosts.${hostName}.ssh-public-key;
 

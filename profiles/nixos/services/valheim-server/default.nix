@@ -1,33 +1,13 @@
-{config, pkgs, lib, shared, ...}: {
+{config, pkgs, lib, ...}:
 let
-  inherit (shared.network) domain;
+  inherit (lib) fileContents;
 in
 {
-  imports = [ ../nginx/reverse-proxy.nix ];
-
   modules.services.valheim-server = {
     enable = true;
     serverName = "Foxheim";
     port = 2456;
-    world = "Dedicated";
-    password = "dontbeevil";
+    worldName = "Dedicated";
+    password = fileContents ../../../../data/secret/valheim-password; # unsafe-secret
   };
-
-  networking.firewall.allowedUDPPortRanges = [
-    {
-      from = 2456;
-      to = 2458;
-    }
-  ];
-
-  services.nginx.virtualHosts."valheim.${domain}" = {
-    #useACMEHost = domain;
-    #forceSSL = true;
-    locations = {
-      "/" = {
-        proxyPass = "http://localhost";
-      };
-    };
-  };
-
 }

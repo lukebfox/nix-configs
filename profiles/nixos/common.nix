@@ -34,11 +34,7 @@ in
 
   i18n.defaultLocale = mkDefault "en_GB.UTF-8";
   time.timeZone = mkDefault "Europe/London";
-  console = {
-    useXkbConfig = true;
-    font = "Fura Code NerdFont";
-    packages = [ pkgs.firacode-nerdfont ];
-  };
+  console.useXkbConfig = true;
 
   environment.systemPackages = attrValues {
     inherit (pkgs)

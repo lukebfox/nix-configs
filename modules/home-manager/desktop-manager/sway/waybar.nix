@@ -1,9 +1,10 @@
 # Wayland bar.
-{ nixosConfig, config, lib, pkgs, secrets, ... }:
+{ nixosConfig, config, lib, pkgs, ... }:
 let
-  inherit (lib) mkIf;
-  inherit (secrets) github-api-token;
+  inherit (lib) mkIf fileContents;
   inherit (config.lib.base16) base16template;
+
+  github-api-token = fileContents ../../../../data/secret/github-api-token;
 
   fetch-github-notifications = pkgs.writeShellScript "fetch-github-notifications" ''
     count=$(curl -u username:${github-api-token} https://api.github.com/notifications |\

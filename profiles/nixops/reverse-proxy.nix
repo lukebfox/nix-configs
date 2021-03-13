@@ -1,12 +1,26 @@
-{ config, pkgs, shared, ... }:
+{ config, pkgs, shared, nodes, resources, ... }:
 let
   inherit (shared.network) domain;
   inherit (pkgs) runCommand;
+
+  dmzIP = node:
+    let
+      dmzServerNetwork =
+        builtins.elemAt
+          node.config.deployment.hetznerCloud.serverNetworks
+          0;
+    in dmzServerNetwork.privateIP;
 in
 {
-  imports = [ ../acme/dns-challenge.nix ];
+  imports = [ ../nixos/services/acme/dns-challenge.nix ];
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall = {
+    allowedTCPPorts = [ 80 443 ];
+    allowedUDPPortRanges = [{ # valheim
+      from = 2456;
+      to = 2458;
+    }];
+  };
 
   # Nginx TLS reverse proxy
   services.nginx = {
@@ -22,7 +36,7 @@ in
         useACMEHost = domain;
         forceSSL = true;
         locations."/" = {
-          proxyPass = "https://localhost:80";
+          proxyPass = "http://${dmzIP nodes.webserver}:80";
         };
       };
 
@@ -32,18 +46,22 @@ in
         forceSSL = true;
         locations = {
           "/" = {
-            proxyPass = "http://localhost:8812";
+            proxyPass = "http://${dmzIP nodes.webserver}:8812";
             proxyWebsockets = true;
           };
           "/notifications/hub" = {
-            proxyPass = "http://localhost:3012";
+            proxyPass = "http://${dmzIP nodes.webserver}:3012";
             proxyWebsockets = true;
           };
           "/notifications/hub/negotiate" = {
-            proxyPass = "http://localhost:8812";
+            proxyPass = "http://${dmzIP nodes.webserver}:8812";
             proxyWebsockets = true;
           };
         };
+      };
+
+      "valheim.${domain}".locations."/" = {
+        proxyPass = "http://${dmzIP nodes.valheim-server}";
       };
 
       # Wildcard DNS will send requests to any subdomains through,
