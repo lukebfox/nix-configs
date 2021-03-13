@@ -16,22 +16,20 @@ in
 
   networking.firewall = {
     allowedTCPPorts = [ 80 443 ];
-    allowedUDPPortRanges = [{ # valheim
-      from = 2456;
-      to = 2458;
-    }];
+    allowedUDPPorts = [ 2456 2457 2458 ];
   };
 
   # Nginx TLS reverse proxy
   services.nginx = {
     enable = true;
+    package = pkgs.nginxMainline;
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     virtualHosts = {
 
-      # Block for my website.
+      # Blog visible at the root domain
       ${domain} = {
         useACMEHost = domain;
         forceSSL = true;
@@ -40,7 +38,7 @@ in
         };
       };
 
-      # Block for password manager service.
+      # Password manager at subdomain
       "bitwarden.${domain}" = {
         useACMEHost = domain;
         forceSSL = true;
@@ -60,11 +58,7 @@ in
         };
       };
 
-      "valheim.${domain}".locations."/" = {
-        proxyPass = "http://${dmzIP nodes.valheim-server}";
-      };
-
-      # Wildcard DNS will send requests to any subdomains through,
+      # Wildcard DNS will match all subdomains even non-existing ones,
       # so fallback to 404 if no other virtualHosts gets matched.
       "*.${domain}" = {
         useACMEHost = domain;
@@ -75,6 +69,15 @@ in
         '';
       };
     };
+    # Game server at subdomain
+    streamConfig = ''
+        server {
+            listen 2456 udp;
+            listen 2567 udp;
+            listen 2558 udp;
+            proxy_pass ${dmzIP nodes.valheim-server}:2456;
+        }
+    '';
   };
 
   # Let Nginx access certificates managed by ACME.

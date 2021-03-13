@@ -31,6 +31,7 @@ in
         ../../profiles/nixops/backends/hetznercloud-small.nix
         (dmzServerNetworkProfile 10)
         ../../profiles/nixops/reverse-proxy.nix
+        ../../profiles/nixos/hardened
       ];
     };
 
@@ -42,7 +43,6 @@ in
         (dmzServerNetworkProfile 11)
         ../../profiles/nixos/services/bitwarden
         ../../profiles/nixos/services/blog
-
       ];
     };
 

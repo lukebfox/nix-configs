@@ -1,7 +1,6 @@
 { shared, ... }:
 {
   imports = [
-    #../../profiles/nixos/hardened
     ../../profiles/nixos/laptop
     ../../profiles/nixos/desktop
     ../../profiles/nixos/workstation
