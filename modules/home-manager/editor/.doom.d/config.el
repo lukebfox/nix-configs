@@ -48,34 +48,72 @@
 
 (use-package! md-roam ; load immediately, before org-roam
   :config
-  (setq md-roam-file-extension-single "md"))
+  (setq md-roam-file-extension-single "md")
+  (setq md-roam-use-org-file-links nil)
+  (setq md-roam-use-markdown-file-links t)
+)
 
 (use-package! org
   :init
-  (setq org-directory "~/Projects/org/"))
+  (setq org-directory "~/Projects/org/")
+)
 
 (use-package! org-roam
-:init
+  :init
   ;; add markdown extension to org-roam-file-extensions list
-  (setq org-roam-file-extensions '("org" "md")
-        org-roam-title-sources '((mdtitle title mdheadline headline) (mdalias alias))
-        org-roam-directory "~/Projects/org/roam/"
-        org-roam-capture-templates
+  (setq org-roam-file-extensions '("md" "org"))
+  (setq org-roam-title-sources '((mdtitle title mdheadline headline) (mdalias alias)))
+  (setq org-roam-directory "~/Projects/org/roam/")
+  (setq org-roam-capture-templates
         '(("d" "default" plain #'org-roam-capture--get-point
                "%?"
                :file-name "%<%Y%m%d%H%M%S>-${slug}"
-               :head "#+title: ${title}\n"
+               :head "#+TITLE: ${title}\n---\n"
                :unnarrowed t)
-          ("i" "Issue" plain #'org-roam-capture--get-point
-               "%?"
-               :file-name "%<%Y%m%d%H%M%S>-ticket_${slug}"
-               :head "#+title: Issue {title}: %^{Description}\nEnv: %^{Environment}\nPriority: %^{Priority}\n\n"
-               :unnarrowed t)
+
           ("p" "Procedure" plain #'org-roam-capture--get-point
                "%?"
                :file-name "%<%Y%m%d%H%M%S>-${slug}"
-               :head "#+title: ${title}\n"
-               :unnarrowed t))))
+               :head "#+TITLE: ${title}
+#+ROAM_TAGS: procedure\n---\n"
+               :unnarrowed t)
+
+          ("i" "Issue" plain #'org-roam-capture--get-point
+               "%?"
+               :file-name "%<%Y%m%d%H%M%S>-${slug}"
+               :head "#+TITLE: ${title}
+#+ROAM_TAGS: issue
+#+TICKET_ID: %^{Ticket}
+#+ENV: %^{Environment}
+#+PRIORITY: %^{Priority}\n---\n"
+               :unnarrowed t)
+
+          ("b" "Bug" plain #'org-roam-capture--get-point
+               "%?"
+               :file-name "%<%Y%m%d%H%M%S>-${slug}"
+               :head "#+TITLE: ${title}
+#+ROAM_TAGS: bug
+#+TICKET_ID: %^{Ticket}
+#+PRIORITY: %^{Priority}\n---\n"
+               :unnarrowed t)
+
+          ("t" "Task" plain #'org-roam-capture--get-point
+               "%?"
+               :file-name "%<%Y%m%d%H%M%S>-${slug}"
+               :head "#+TITLE: ${title}
+#+ROAM_TAGS: task
+#+TICKET_ID: %^{Ticket}
+#+PRIORITY: %^{Priority}\n---\n"
+               :unnarrowed t)
+
+          ("a" "Alert" plain #'org-roam-capture--get-point
+               "%?"
+               :file-name "%<%Y%m%d%H%M%S>-${slug}"
+               :head "#+TITLE: ${title}
+#+ROAM_TAGS: alert_type
+#+PRIORITY: %^{Priority}\n---\n"
+               :unnarrowed t)))
+)
 
 ;; Projectile
 (setq projectile-project-search-path '("~/Projects/"))

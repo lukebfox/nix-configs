@@ -47,7 +47,8 @@ in
         pkgs.multimarkdown
         pkgs.fira-code
         pkgs.emacs-all-the-icons-fonts
-        pkgs.sqlite # required for org-roam
+        pkgs.sqlite   # required for org-roam
+        pkgs.graphviz # required for org-roam
       ];
 
       # FIXME onChange to aggregate comparisons and fire once

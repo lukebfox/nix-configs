@@ -67,7 +67,7 @@
              will be able to support deploying multiple networks by selecting
              the respective flake output fragment e.g.
 
-             # $ nixops create -d my-network --flake "path/to/flake#my-net"
+             # $ nixops create -d my-net --flake "path/to/flake#my-net"
           */
           default = {
             # REVIEW understand why this works

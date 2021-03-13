@@ -8,8 +8,8 @@ let
   cfg = config.modules.standalone;
 
   initExtra = ''
-   . "$HOME/.nix-profile/etc/profile.d/nix.sh"
-   . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+    . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
   '';
 
 in

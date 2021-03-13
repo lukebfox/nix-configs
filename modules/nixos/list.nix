@@ -1,6 +1,7 @@
 [
   ./development
   ./gaming
+  ./gaming/valheim-server
   ./graphical
   ./home-manager
   ./network
