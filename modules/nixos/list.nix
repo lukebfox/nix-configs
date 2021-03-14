@@ -1,10 +1,10 @@
 [
   ./development
   ./gaming
-  ./gaming/valheim-server.nix
   ./graphical
   ./home-manager
   ./network
   ./secrets
+  ./services/valheim
   ./user-manager
 ]

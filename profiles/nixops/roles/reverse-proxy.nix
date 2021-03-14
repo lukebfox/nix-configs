@@ -12,7 +12,7 @@ let
     in dmzServerNetwork.privateIP;
 in
 {
-  imports = [ ../nixos/services/acme/dns-challenge.nix ];
+  imports = [ ../../nixos/services/acme/dns-challenge.nix ];
 
   networking.firewall = {
     allowedTCPPorts = [ 80 443 ];
@@ -28,7 +28,6 @@ in
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     virtualHosts = {
-
       # Blog visible at the root domain
       ${domain} = {
         useACMEHost = domain;
@@ -37,7 +36,6 @@ in
           proxyPass = "http://${dmzIP nodes.webserver}:80";
         };
       };
-
       # Password manager at subdomain
       "bitwarden.${domain}" = {
         useACMEHost = domain;
@@ -57,7 +55,6 @@ in
           };
         };
       };
-
       # Wildcard DNS will match all subdomains even non-existing ones,
       # so fallback to 404 if no other virtualHosts gets matched.
       "*.${domain}" = {
@@ -69,7 +66,7 @@ in
         '';
       };
     };
-    # Game server at subdomain
+    # Forward udp traffic on certain ports to game server.
     streamConfig = ''
         server {
             listen 2456 udp;

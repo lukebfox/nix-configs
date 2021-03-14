@@ -14,7 +14,6 @@
 
   ./misc/syncthing.nix
   ./misc/yubikey.nix
-  ./misc/stubby.nix
 
   ./virtualisation/docker.nix
   ./virtualisation/libvirtd.nix

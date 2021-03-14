@@ -28,9 +28,9 @@ in
     { ... }:
     {
       imports = [
-        ../../profiles/nixops/backends/hetznercloud-small.nix
+        ../../profiles/nixops/backends/hetznercloud/small.nix
         (dmzServerNetworkProfile 10)
-        ../../profiles/nixops/reverse-proxy.nix
+        ../../profiles/nixops/roles/reverse-proxy.nix
         ../../profiles/nixos/hardened
       ];
     };
@@ -39,7 +39,7 @@ in
     { ... }:
     {
       imports = [
-        ../../profiles/nixops/backends/hetznercloud-small.nix
+        ../../profiles/nixops/backends/hetznercloud/small.nix
         (dmzServerNetworkProfile 11)
         ../../profiles/nixos/services/bitwarden
         ../../profiles/nixos/services/blog
@@ -50,9 +50,9 @@ in
     { ... }:
     {
       imports = [
-        ../../profiles/nixops/backends/hetznercloud-medium.nix
+        ../../profiles/nixops/backends/hetznercloud/medium.nix
         (dmzServerNetworkProfile 20)
-        ../../profiles/nixos/services/valheim-server
+        ../../profiles/nixos/services/valheim
       ];
     };
 
