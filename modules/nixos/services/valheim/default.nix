@@ -80,7 +80,7 @@ in
       script = ''
         OUTPUT="$(${updateCmd} | tail -n 1)"
         SUCCESS="Success! App '896660' already up to date."
-        if ![[ $OUTPUT == $SUCCESS ]]; then
+        if ! [[ $OUTPUT == $SUCCESS ]]; then
             echo "Restarting valheim"
             systemctl restart valheim.service
         fi

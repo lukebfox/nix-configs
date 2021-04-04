@@ -245,6 +245,7 @@
             export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
             gpgconf --launch gpg-agent
           '';
+	  NIXOPS_STATE="./data/secret/localstate.nixops";
           NIX_CONF_DIR =
             let
               current =
