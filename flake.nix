@@ -7,7 +7,8 @@
     home-manager.url     = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixops-plugged.url   = "github:lukebfox/nixops-plugged";
-    emacs.url            = "github:nix-community/emacs-overlay";
+    emacs-overlay.url    = "github:nix-community/emacs-overlay";
+    rust-overlay.url     = "github:oxalica/rust-overlay";
     base16.url           = "github:lukebfox/base16-nix";
     flake-utils.url      = "github:numtide/flake-utils";
   };
@@ -17,7 +18,8 @@
             , nixpkgs-unstable
             , home-manager
             , nixops-plugged
-            , emacs
+            , emacs-overlay
+            , rust-overlay
             , base16
             , flake-utils
             , ... } @ inputs:
@@ -44,7 +46,8 @@
         inherit system;
         config = { allowUnfree = true; };
         overlays = (attrValues self.overlays) ++ [
-          emacs.overlay
+          emacs-overlay.overlay
+          rust-overlay.overlay
         ];
       };
 
@@ -245,7 +248,8 @@
             export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
             gpgconf --launch gpg-agent
           '';
-	  NIXOPS_STATE="./data/secret/localstate.nixops";
+          # Version-control a git-crypted statefile so I can deploy from anywhere.
+	        NIXOPS_STATE = "./data/secret/localstate.nixops";
           NIX_CONF_DIR =
             let
               current =

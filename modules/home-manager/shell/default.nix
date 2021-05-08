@@ -45,7 +45,6 @@ in
           ngco = "sudo nix-collect-garbage --delete-old";
           nrs  = "sudo nixos-rebuild switch";
           nbhm = "nix build '.#homeManagerConfigurations.luminance.activationPackage' && ./result/activate;"; #TODO make generic
-          j    = "ssh jump -t luminance-jumpcli ssh";
         };
         shellGlobalAliases = {
           C="| wc -l";

@@ -1,6 +1,7 @@
 # Home-manager module to iron out any issues when deploying standalone configurations.
 # This means any configurations destined for systems unmanaged by nix (via nixos/nix-darwin)
 # e.g darwin, or fedora.
+# This module shouldn't really exist and hopefully will be made redundant by improvements in hm
 { system, config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf mkMerge;
