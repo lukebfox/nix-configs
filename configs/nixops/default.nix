@@ -53,6 +53,7 @@ in
         ../../profiles/nixops/backends/hetznercloud/medium.nix
         (dmzServerNetworkProfile 20)
         ../../profiles/nixos/services/valheim
+        ../../profiles/nixos/users/rokas.bagdonas
       ];
     };
 

@@ -1,27 +1,16 @@
+# A top-level nixos configuration for my old HP laptop
 { shared, ... }:
 {
+  ## Logical
+
   imports = [
     ../../profiles/nixos/laptop
     ../../profiles/nixos/desktop
     ../../profiles/nixos/workstation
+    ../../profiles/nixos/users/lukebfox
   ];
 
-  modules.user-manager.users = {
-    lukebfox = {
-      homeDirectory = "/home/lukebfox";
-      home = ../home-manager/standard.nix;
-      isAdmin = true;
-      uid = 1000;
-    };
-  };
-
-  # FIXME https://github.com/NixOS/nixpkgs/issues/103746
-  #services.xserver.displayManager.autoLogin = {
-  #  enable = true;
-  #  user = "lukebfox";
-  #};
-
-  # TODO place below into profiles where possible.
+  ## Physical
 
   # Use system EFI boot loader.
   boot.loader = {
@@ -59,5 +48,4 @@
 
   hardware.cpu.intel.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
-
 }

@@ -78,7 +78,7 @@ in
     # Derive a nixos user definition for every user-manager user definition.
     users.users =
       mapAttrs
-        (_: { uid, homeDirectory, isAdmin, ... }: {
+        (username: { uid, homeDirectory, isAdmin, ... }: {
           inherit uid;
           home = homeDirectory;
           extraGroups =
@@ -90,8 +90,7 @@ in
           shell = pkgs.zsh;
           isNormalUser = true;
           hashedPassword = mkDefault "$6$Br94NDGbCd44UN1f$cDJaZ8YWYKp9fzVyIrkdQaG8ZMca4IXqcqX2v2So80taR/YqnLhYACaiZ/EDo/UkjDiOUUOi3f8/ovzCg7Ewg1";
-          # SSH access to all my users via my yubikey, don't try this at home kids.
-          openssh.authorizedKeys.keys = [ ssh-public-key ];
+          openssh.authorizedKeys.keys = [ shared.users."${username}".ssh-public-key ];
         })
         cfg.users;
 
