@@ -4,10 +4,10 @@ domain = "lukebentleyfox.net"
 [hosts.erebus]
 ssh-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOJvJXATU3iDDl3VX7zhoGtOa975QBq7fi+w/8zohJIy root@nixos"
 
-[users.rokas.bagdonas]
+[users."rokas.bagdonas"]
 ssh-public-key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxak694UFMnOdZSxnqBEMptnz0jcA1EX0mf7Wp/A9acZHzHHE8+ksOwNq//YuRo1o1/ypt3j9Bgy0X9MZ1QpbIAQeMPgjHyCpWgPSPHAEvKTS15ENsbCvN7gFad0Rw/YKo86UIjIQFcU4GQd0PbwXRzqiwn+/Uc3MGMnDbWXVFhROmNLK6ZJTG3mWa/EYeVx8cGlx68PrYEg5YUbCKJFHNy/a1pyERLqucMhUAbDO6WQHrt0P/WIWzJBx3sp/SbEgT/WARcDeNi6tnQh4uFCM6rRoEwtz8KPlrKV1nf9E6AwkQI5lSRmW5BVXrXp087ug2NbqSmnv+HK69OdLC2zqaltWY/zinMLNGD0vJ3XIYHtHyvHxxal0AMr39HkjVsZ/BczGtPy/HJEDVTfvsiLwdkYrVnO/AvUaSf3WPK0zq1J1tIZ15xmbycXK6dRgCgtwOzzi3HBd+ojuvk1KMhU/uZunDEDG4h9IbeH8TS3Sdv8d8XRG00PWI//8Wb+NczRvJH35tGTiOu4NEbQCN9AMWmszP+nMYEMW/Y2QdKhLULNAHAt6XcCu+/hfqEggI/HGqPFGxPnSxAAQQcvQ6iFZHm/rhUW1bpSCgQVUptjEhffgvDhvzshJB8D0Vkewg/flKBftFFdG7ifudXlLEvPCVa+4A3y86mlW4jL1SEVgbyQ== rokas@localhost.localdomain"
 
-[users.luke.bentley.fox]
+[users."luke.bentley.fox"]
 ssh-public-key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDVW5/fNNqmng7UVuNlIa/Y81isasB6cnqOW3aXtjKmcos07iKtEu3qcXqZbopUW+L9WIWcYytCGAz5qI13f/I1WJkQkaSy0wXfaKREyDmM8oSYw7D+EkTDpj03ddNRvpjt3oxHvzcveCAxnN95+3ZGgy/kPRxy+FU82dd6alVf2VRZd2taUu9eCJ7AvmsTQYgds0ObI8saw7QmuB/tELaHcTSddcHmxb3PBzyaIbt3dYzE4mYPr+8E1IULZkWnwotS+Gf4FusXgkHWLH9l/U4tBjDNPJzk7XTDD3iOKPkk/sb4nNUY2mePRklXu+4M8uFRyv3CwnZncvVGDL6oqbR539uiAq2H8zu/PEqLwTnn8eNx8wLYTSy2nQ1tk+TqbC0yMQIpMhg+QJRJq9fwx2hAXup4q4vrSUeFo0pmFmkLQPD5Hvf2KcgHBik6bViFFPKSn8TaNk0jtVJQ/tqDusQiFZzd8EjLPfO5nQETR2tbMVVzRq/ejpW1/q3UFiYN8x0= luke.bentley.fox@LA-373.local"
 gpg-public-key = '''
 -----BEGIN PGP PUBLIC KEY BLOCK-----
