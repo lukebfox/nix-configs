@@ -51,9 +51,12 @@ in
         pkgs.graphviz # required for org-roam
       ];
 
-      # FIXME onChange to aggregate comparisons and fire once
+      # Installing doom in this way is impure, but doom itself uses straight.el for
+      # managing its own dependences purely.
+      # FIXME
+      # Currently this diffs a directory `.doom.d` which always returns true...
       home.file.".doom.d/" = {
-        source = toString ./.doom.d;
+        source = toString ./doom-emacs;
         recursive = true;
         onChange = ''
           #!/usr/bin/env sh

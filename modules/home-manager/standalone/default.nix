@@ -1,7 +1,9 @@
-# Home-manager module to iron out any issues when deploying standalone configurations.
-# This means any configurations destined for systems unmanaged by nix (via nixos/nix-darwin)
-# e.g darwin, or fedora.
-# This module shouldn't really exist and hopefully will be made redundant by improvements in hm
+# Home Manager module to iron out issues when deploying standalone configurations i.e
+# configurations destined for systems unmanaged by nix e.g darwin, or fedora.
+# Issues:
+# - https://github.com/nix-community/home-manager/issues/1341
+#
+# This module shouldn't really exist and hopefully will be made redundant by improvements in HM
 { system, config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf mkMerge;
@@ -17,7 +19,6 @@ in
 {
   options.modules.standalone.enable = mkEnableOption "Enable home-manager module for non-nixos systems.";
 
-
   config = mkIf cfg.enable (mkMerge [
 
     {
@@ -29,6 +30,7 @@ in
 
     (mkIf (system == "x86_64-darwin") {
       # Create launchpad entries
+      # https://github.com/nix-community/home-manager/issues/1341#issuecomment-778820334
       home.activation = {
         copyApplications =
           let
