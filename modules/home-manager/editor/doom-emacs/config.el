@@ -89,13 +89,11 @@
 #+PRIORITY: %^{Priority}\n---\n"
                :unnarrowed t)
 
-          ("b" "Bug" plain #'org-roam-capture--get-point
+          ("b" "Billing" plain #'org-roam-capture--get-point
                "%?"
-               :file-name "%<%Y%m%d%H%M%S>-${slug}"
-               :head "#+TITLE: ${title}
-#+ROAM_TAGS: bug
-#+TICKET_ID: %^{Ticket}
-#+PRIORITY: %^{Priority}\n---\n"
+               :file-name "%<%Y%m%d%H%M%S>-%<%b>-%<%Y>"
+               :head "#+TITLE: %b Billing
+#+ROAM_TAGS: billing"
                :unnarrowed t)
 
           ("t" "Task" plain #'org-roam-capture--get-point
