@@ -24,6 +24,8 @@ in
     subnets = ["10.10.10.0/24"];
   };
 
+  resources.hetznerCloudVolumes.volume1 = { inherit apiToken; location = "nbg1"; };
+
   bastion =
     { ... }:
     {
@@ -47,7 +49,7 @@ in
     };
 
   valheim-server =
-    { ... }:
+    { resources, ... }:
     {
       imports = [
         ../../profiles/nixops/backends/hetznercloud/medium.nix
@@ -55,6 +57,7 @@ in
         ../../profiles/nixos/services/valheim
         ../../profiles/nixos/users/rokas.bagdonas
       ];
+      fileSystems."/data1".hetznerCloud.volume = resources.hetznerCloudVolumes.volume1;
     };
 
 }
