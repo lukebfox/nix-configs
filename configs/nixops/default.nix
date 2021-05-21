@@ -48,16 +48,4 @@ in
       ];
     };
 
-  valheim-server =
-    { resources, ... }:
-    {
-      imports = [
-        ../../profiles/nixops/backends/hetznercloud/medium.nix
-        (dmzServerNetworkProfile 20)
-        ../../profiles/nixos/services/valheim
-        ../../profiles/nixos/users/rokas.bagdonas
-      ];
-      fileSystems."/data1".hetznerCloud.volume = resources.hetznerCloudVolumes.volume1;
-    };
-
 }

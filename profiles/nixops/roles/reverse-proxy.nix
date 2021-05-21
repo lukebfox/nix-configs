@@ -66,15 +66,6 @@ in
         '';
       };
     };
-    # Forward udp traffic on certain ports to game server.
-    streamConfig = ''
-        server {
-            listen 2456 udp;
-            listen 2567 udp;
-            listen 2558 udp;
-            proxy_pass ${dmzIP nodes.valheim-server}:2456;
-        }
-    '';
   };
 
   # Let Nginx access certificates managed by ACME.
