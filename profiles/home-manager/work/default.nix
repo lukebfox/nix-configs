@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   initExtra = ''
-    export PATH="$HOME/Projects/ops/bin/:$PATH";
+    export PATH="$HOME/Projects/code/ops/bin/:$PATH";
     alias j="ssh jump -t luminance-jumpcli ssh";
     releaseoff () {
         git log $1 --decorate=full | grep 'tag:' | sed -E "s/^.*tag: refs\/tags\/([^ ,\)]+).*$/\1/g" | grep '^v' | head -n 1
