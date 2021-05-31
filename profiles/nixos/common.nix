@@ -81,12 +81,6 @@ in
       "fuse"
       "video"
     ];
-    # Base user for all my systems.
-    #users.jeeves = {
-    #  uid = 2000;
-    #  isAdmin = true;
-    #  homeDirectory = "/jeeves";
-    #};
   };
 
 }
