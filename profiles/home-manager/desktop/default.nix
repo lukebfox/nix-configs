@@ -38,7 +38,7 @@ in
             exec = "firefox";
           };
           research = {
-            package = pkgs.mendeley;
+            package = pkgs.firefox;
             class = "Mendeley";
             exec = "mendeleydesktop";
           };

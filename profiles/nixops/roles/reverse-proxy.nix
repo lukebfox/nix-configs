@@ -9,7 +9,7 @@ let
         builtins.elemAt
           node.config.deployment.hetznerCloud.serverNetworks
           0;
-    in dmzServerNetwork.privateIP;
+    in dmzServerNetwork.privateIpAddress;
 in
 {
   imports = [ ../../nixos/services/acme/dns-challenge.nix ];

@@ -10,7 +10,7 @@ let
     {
       deployment.hetznerCloud.serverNetworks = [{
         network = resources.hetznerCloudNetworks.dmz;
-        privateIP = "10.10.10.${toString id}";
+        privateIpAddress = "10.10.10.${toString id}";
       }];
     };
 in
@@ -23,8 +23,6 @@ in
     ipRange = "10.10.0.0/16";
     subnets = ["10.10.10.0/24"];
   };
-
-  resources.hetznerCloudVolumes.volume1 = { inherit apiToken; location = "nbg1"; };
 
   bastion =
     { ... }:

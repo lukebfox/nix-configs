@@ -13,6 +13,9 @@ stdenv.mkDerivation {
         moderncv
         xpatch
         fontaxes
+        multirow
+        cm-super
+        arydshln
         fira
         fontawesome
 

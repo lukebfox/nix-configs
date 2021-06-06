@@ -15,6 +15,7 @@ in
     gc.automatic = mkDefault true;
     gc.dates = mkDefault "00:00";
     gc.options = mkDefault "--delete-older-than 7d";
+    sandboxPaths = [ "/bin/sh=${pkgs.bash}/bin/sh" ]; # https://github.com/NixOS/nixpkgs/issues/124372
     trustedBinaryCaches = [
       # "https://iohk.cachix.org"
     ];
@@ -72,8 +73,8 @@ in
     openssh.authorizedKeys.keys = [ ssh-public-key ];
   };
 
+  # TODO move these to the modules or profiles which require them.
   modules.user-manager = {
-    # TODO move these to the modules or profiles which require them.
     userGroups = [
       "audio"
       "dialout"

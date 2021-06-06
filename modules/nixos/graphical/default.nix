@@ -93,6 +93,6 @@ in
 
     # REVIEW understand these.
     security.pam.services.login.enableGnomeKeyring = true;
-    services.gnome3.gnome-keyring.enable = true;
+    services.gnome.gnome-keyring.enable = true;
   };
 }
