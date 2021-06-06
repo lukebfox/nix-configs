@@ -16,7 +16,6 @@ in
 
   networking.firewall = {
     allowedTCPPorts = [ 80 443 ];
-    allowedUDPPorts = [ 2456 2457 2458 ];
   };
 
   # Nginx TLS reverse proxy
@@ -53,6 +52,15 @@ in
             proxyPass = "http://${dmzIP nodes.webserver}:8812";
             proxyWebsockets = true;
           };
+        };
+      };
+      # Build farmer
+      "hydra.${domain}" = {
+        useACMEHost = domain;
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://${dmzIP nodes.hydra}:3000";
+          proxyWebsockets = true;
         };
       };
       # Wildcard DNS will match all subdomains even non-existing ones,

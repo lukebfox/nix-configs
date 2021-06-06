@@ -170,3 +170,6 @@ atK3U7GB
 
 [users.robot]
 ssh-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDgFoF1gx50bc273ZtaxisKq/GO8Y+awYhZenlwB6YzF robot@lukebentleyfox.net"
+
+[users.hydra]
+ssh-public-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBcCNIFchLZhNVPXHhlQ8Z2HLbyplOXO+i51+lAuNjSW hydra@lukebentleyfox.net"

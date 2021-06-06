@@ -1,31 +1,26 @@
-#FIXME
 { config, shared, ... }:
 let
   inherit (builtins) removeAttrs;
-  inherit (shared) domain;
+  inherit (shared.network) domain;
+  inherit (config.networking) hostName;
 in
 {
-  imports = [../nginx/reverse-proxy.nix];
+  networking.firewall.allowedTCPPorts = [ 3000 ];
 
-  # Prepare the beast
+  # Hydra build farm
   services.hydra = {
     enable = true;
     useSubstitutes = true;
     hydraURL = "https://hydra.${domain}";
     notificationSender = "hydra@${domain}";
+    smtpHost = "localhost";
     buildMachinesFiles = [];
     extraConfig = ''
-      store_uri = file:///var/lib/hydra/cache?secret-key=/etc/nix/<HOSTNAME>/secret
-      binary_cache_secret_key_file = /etc/nix/<HOSTNAME>/secret
+      store_uri = file:///var/lib/hydra/cache?secret-key=/etc/nix/${hostName}/secret
+      binary_cache_secret_key_file = /etc/nix/${hostName}/secret
       binary_cache_dir = /var/lib/hydra/cache
     '';
   };
-
-  # Miscellaneous helper services.
-  services.ntp.enable          = true;
-  services.openssh.allowSFTP   = false;
-  services.postfix.enable      = true;
-  services.postfix.setSendmail = true;
 
   # Configure postgreSQL database.
   services.postgresql = {
@@ -39,17 +34,15 @@ in
     '';
   };
 
-  # Nginx reverse proxy entry.
-  services.nginx.virtualHosts."hydra.${domain}" = {
-    useACMEHost = domain;
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "http://localhost:3000";
-      proxyWebsockets = true;
-    };
-  };
+  # Miscellaneous helper services.
+  services.ntp.enable = true;
+  services.openssh.allowSFTP = false;
+  services.openssh.passwordAuthentication = false;
+  services.postfix.enable = true;
+  services.postfix.setSendmail = true;
+  services.postfix.domain = domain;
 
-  # TODO what is this important thing?
+  # One-time setup for the local binary cache we specified in `extraConfig`.
   systemd.services.hydra-manual-setup = {
     description = "Create Admin User for Hydra";
     serviceConfig.Type = "oneshot";
@@ -61,11 +54,11 @@ in
     script = ''
       if [ ! -e ~hydra/.setup-is-complete ]; then
         # create signing keys
-        /run/current-system/sw/bin/install -d -m 551 /etc/nix/<HOSTNAME>
-        /run/current-system/sw/bin/nix-store --generate-binary-cache-key <HOSTNAME> /etc/nix/<HOSTNAME>/secret /etc/nix/<HOSTNAME>/public
-        /run/current-system/sw/bin/chown -R hydra:hydra /etc/nix/<HOSTNAME>
-        /run/current-system/sw/bin/chmod 440 /etc/nix/<HOSTNAME>/secret
-        /run/current-system/sw/bin/chmod 444 /etc/nix/<HOSTNAME>/public
+        /run/current-system/sw/bin/install -d -m 551 /etc/nix/${hostName} ;
+        /run/current-system/sw/bin/nix-store --generate-binary-cache-key ${hostName} /etc/nix/${hostName}/secret /etc/nix/${hostName}/public
+        /run/current-system/sw/bin/chown -R hydra:hydra /etc/nix/${hostName}
+        /run/current-system/sw/bin/chmod 440 /etc/nix/${hostName}/secret
+        /run/current-system/sw/bin/chmod 444 /etc/nix/${hostName}/public
         # create cache
         /run/current-system/sw/bin/install -d -m 755 /var/lib/hydra/cache
         /run/current-system/sw/bin/chown -R hydra-queue-runner:hydra /var/lib/hydra/cache
@@ -75,17 +68,16 @@ in
     '';
   };
 
-  # Just nix things.
   nix = {
     autoOptimiseStore = true;
     trustedUsers = ["hydra" "hydra-evaluator" "hydra-queue-runner"];
     buildMachines = [
       {  hostName = "localhost";
-         systems = [ "x86_64-linux" "i686-linux" ];
-         maxJobs = 2;
+         systems = [ "x86_64-linux" ];
+         maxJobs = 1;
          # for building VirtualBox VMs as build artifacts, you might need other
          # features depending on what you are doing
-         supportedFeatures = [ ];
+         supportedFeatures = [];
       }
     ];
     gc.automatic = true;

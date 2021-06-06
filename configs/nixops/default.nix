@@ -46,4 +46,16 @@ in
       ];
     };
 
+  hydra =
+    { resources, ... }:
+    {
+      imports = [
+        ../../profiles/nixops/backends/hetznercloud/small.nix
+        (dmzServerNetworkProfile 20)
+        ../../profiles/nixos/services/hydra
+      ];
+      fileSystems."/var/lib/hydra".hetznerCloud.volume = resources.hetznerCloudVolumes.volume1;
+    };
+
+  resources.hetznerCloudVolumes.volume1 = { inherit apiToken; location="nbg1"; };
 }

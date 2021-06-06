@@ -3,7 +3,6 @@ let
   inherit (shared.network) domain;
 in
 {
-
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   # Nginx as http server here. dont encrypt, let proxy handle all that.
