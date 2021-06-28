@@ -10,7 +10,7 @@ in
 
   nix = {
     package = unstablePkgs.nixUnstable;
-    systemFeatures = [ "nixos-test" "benchmark" ];
+    systemFeatures = [ "nixos-test" "benchmark" "big-parallel"];
     autoOptimiseStore = mkDefault true;
     gc.automatic = mkDefault true;
     gc.dates = mkDefault "00:00";

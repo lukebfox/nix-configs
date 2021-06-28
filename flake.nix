@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url          = "nixpkgs/nixos-unstable";
+    nixpkgs-stable.url   = "nixpkgs/release-21.05";
     nixpkgs-unstable.url = "nixpkgs/master";
     home-manager.url     = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -15,6 +16,7 @@
 
   outputs = { self
             , nixpkgs
+            , nixpkgs-stable
             , nixpkgs-unstable
             , home-manager
             , nixops-plugged
@@ -62,6 +64,7 @@
         let
           # Import unstable and master package sets for NixOS.
           pkgs         = pkgImport nixpkgs "x86_64-linux";
+          stablePkgs   = pkgImport nixpkgs-stable "x86_64-linux";
           unstablePkgs = pkgImport nixpkgs-unstable "x86_64-linux";
         in {
           /* NOTE (06/02/21)
