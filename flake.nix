@@ -249,7 +249,7 @@
             gpgconf --launch gpg-agent
           '';
           # Version-control a git-crypted statefile so I can deploy from anywhere.
-	        NIXOPS_STATE = "./data/secret/localstate.nixops";
+          NIXOPS_STATE = "./data/secret/localstate.nixops";
           NIX_CONF_DIR =
             let
               current =

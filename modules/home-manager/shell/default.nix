@@ -45,6 +45,7 @@ in
           ngco = "sudo nix-collect-garbage --delete-old";
           nrs  = "sudo nixos-rebuild switch";
           nbhm = "nix build '.#homeManagerConfigurations.luminance.activationPackage' && ./result/activate;"; #TODO make generic
+          nfix = "nix-store --verify --check-contents --repair";
         };
         shellGlobalAliases = {
           C="| wc -l";
