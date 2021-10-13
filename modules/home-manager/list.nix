@@ -1,7 +1,5 @@
 [
-
-  ./desktop-manager/awesome
-
+  ./desktop-environment
   ./editor
 
   ./gaming

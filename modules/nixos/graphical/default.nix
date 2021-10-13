@@ -26,7 +26,7 @@ in
     hardware.opengl.enable = true;
     hardware.opengl.driSupport = true;
 
-    # Use GDM Display Manager.
+    # X Configuration.
     services.xserver = {
       enable = true;
       layout = "gb";
@@ -36,22 +36,10 @@ in
         touchpad.clickMethod = "buttonareas";
         touchpad.naturalScrolling = true;
       };
-      # I manage AwesomeWM at the home-manager level, so here I ensure the
-      # system display manager (GDM) uses home-manager's xsession by default.
-      # see: https://github.com/nix-community/home-manager/issues/1180
-      displayManager = {
-        gdm.enable = true;
-        gdm.autoSuspend = false;
-        defaultSession = "home-manager";
-        session = [
-          { name = "home-manager";
-            manage = "desktop";
-            start = ''
-                ${pkgs.runtimeShell} $HOME/.xsession-hm &
-                  waitPID=$!
-              '';
-          }
-        ];
+      desktopManager.gnome.enable = true;
+      displayManager.gdm = {
+        enable = true;
+        wayland = false; # helpful for razer
       };
     };
 
@@ -85,13 +73,14 @@ in
     programs.light.enable = true;
 
     # Gnome keyring setup
-    # REVIEW better home?
+    # REVIEW better home for this than graphical profile? should this be done with hm?
     programs.gnupg.agent = {
       enableSSHSupport = true;
       pinentryFlavor = "gnome3";
     };
 
     # REVIEW understand these.
+    services.dbus.packages = [ pkgs.gnome3.dconf ];
     security.pam.services.login.enableGnomeKeyring = true;
     services.gnome.gnome-keyring.enable = true;
   };
