@@ -171,6 +171,7 @@
           profiles = pathsToImportedAttrs profileList;
         };
 
+      /*
       # Attrset of home-manager configurations installable locally with:
       # `nix build .#<name?>.activationPackage && ./result/activate`
       homeManagerConfigurations =
@@ -198,15 +199,15 @@
             };
         in
         {
-          luminance = mkHomeManagerConfiguration
+          ??? = mkHomeManagerConfiguration
             {
               system        = "x86_64-darwin";
-              configuration = ./configs/home-manager/luminance.nix;
-              username      = "luke.bentley.fox";
-              homeDirectory = "/Users/luke.bentley.fox";
+              configuration = ./configs/home-manager/???.nix;
+              username      = "???";
+              homeDirectory = "/Users/???";
             };
         };
-
+      */
 
       ##########################################################################
       ## Nixpkgs Overlays

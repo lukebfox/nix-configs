@@ -72,13 +72,6 @@
                :head "#+TITLE: ${title}\n---\n"
                :unnarrowed t)
 
-          ("p" "Procedure" plain #'org-roam-capture--get-point
-               "%?"
-               :file-name "%<%Y%m%d%H%M%S>-${slug}"
-               :head "#+TITLE: ${title}
-#+ROAM_TAGS: procedure\n---\n"
-               :unnarrowed t)
-
           ("i" "Issue" plain #'org-roam-capture--get-point
                "%?"
                :file-name "%<%Y%m%d%H%M%S>-${slug}"
@@ -89,27 +82,12 @@
 #+PRIORITY: %^{Priority}\n---\n"
                :unnarrowed t)
 
-          ("b" "Billing" plain #'org-roam-capture--get-point
-               "%?"
-               :file-name "%<%Y%m%d%H%M%S>-%<%b>-%<%Y>"
-               :head "#+TITLE: %b Billing
-#+ROAM_TAGS: billing"
-               :unnarrowed t)
-
           ("t" "Task" plain #'org-roam-capture--get-point
                "%?"
                :file-name "%<%Y%m%d%H%M%S>-${slug}"
                :head "#+TITLE: ${title}
 #+ROAM_TAGS: task
 #+TICKET_ID: %^{Ticket}
-#+PRIORITY: %^{Priority}\n---\n"
-               :unnarrowed t)
-
-          ("a" "Alert" plain #'org-roam-capture--get-point
-               "%?"
-               :file-name "%<%Y%m%d%H%M%S>-${slug}"
-               :head "#+TITLE: ${title}
-#+ROAM_TAGS: alert_type
 #+PRIORITY: %^{Priority}\n---\n"
                :unnarrowed t)))
 )
