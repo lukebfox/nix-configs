@@ -1,3 +1,4 @@
+# Default configuration for all home-manager configs
 { config, lib, pkgs, ... }:
 let
   inherit (builtins) attrValues;
@@ -40,8 +41,8 @@ in
 
   # Default theme
   themes.base16 = {
-    scheme  = mkDefault "unclaimed";
-    variant = mkDefault "monokai";
+    scheme  = mkDefault "gruvbox";
+    variant = mkDefault "gruvbox-dark-hard";
     extraParams.tone = mkDefault "dark";
   };
 

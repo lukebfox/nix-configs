@@ -5,5 +5,6 @@
   imports = [
     ../../profiles/home-manager/developer
     ../../profiles/home-manager/desktop
+    ../../profiles/home-manager/themes/monokai.nix
   ];
 }
