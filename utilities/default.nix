@@ -6,8 +6,6 @@ let
                 mapAttrs mapAttrs' mapAttrsToList mkMerge nameValuePair
                 removeSuffix;
 
-in rec {
-
   # Generate an attribute set by mapping a function over a list of values.
   genAttrs' = values: f: listToAttrs (map f values);
 
@@ -135,7 +133,7 @@ in rec {
   # see my awesomewm home-manager module for the above two functions in action!
 
 
-  /* Convert a list to file paths to attribute set
+  /* Convert a list of file paths to attribute set
      that has the filenames stripped of nix extension as keys
      and imported content of the file as value.
   */
@@ -164,4 +162,24 @@ in rec {
         else nameValuePair ("") (null))
       (readDir dir);
 
+  exportableModules = namespace:
+    let
+      moduleList  = import ../../modules + "/${namespace}/list.nix";
+      profileList = import ../../profiles + "/${namespace}/list.nix";
+        in pathsToImportedAttrs moduleList // {
+          profiles = pathsToImportedAttrs profileList;
+        };
+
+in {
+  inherit
+    genAttrs'
+    mapFilterAttrs
+    filterMapAttrs
+    flattenAttrs
+    dirsToAttrs
+    filesUnder
+    importOverlays
+    pathsToImportedAttrs
+    recImport
+    exportableModules;
 }

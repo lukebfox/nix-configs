@@ -33,6 +33,7 @@
       # Import my lib and bring some functions into scope.
       utilities = import ./utilities { inherit (nixpkgs) lib; };
       inherit (utilities)
+        exportableModules
         importOverlays
         importSecrets
         pathsToImportedAttrs
@@ -112,13 +113,7 @@
       ## NixOS Modules & NixOS Host Configurations
 
       # Attrset of custom NixOS modules.
-      nixosModules =
-        let
-          moduleList  = import ./modules/nixos/list.nix;
-          profileList = import ./profiles/nixos/list.nix;
-        in pathsToImportedAttrs moduleList // {
-          profiles = pathsToImportedAttrs profileList;
-        };
+      nixosModules = exportableModules "nixos";
 
       # Attrset NixOS configurations installable locally with:
       # `nixos-rebuild --flake .#<name?> switch`
@@ -163,13 +158,7 @@
       ## Home Manager Modules & Home Manager Home Configurations
 
       # Attrset of custom Home Manager modules.
-      homeManagerModules =
-        let
-          moduleList  = import ./modules/home-manager/list.nix;
-          profileList = import ./profiles/home-manager/list.nix;
-        in pathsToImportedAttrs moduleList // {
-          profiles = pathsToImportedAttrs profileList;
-        };
+      homeManagerModules = exportableModules "home-manager";
 
       /*
       # Attrset of home-manager configurations installable locally with:
