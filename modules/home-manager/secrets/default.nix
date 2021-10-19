@@ -1,6 +1,6 @@
-  # Manage secrets with home-manager. Keep encrypted secrets in the nix store,
-  # and install decrypted copies upon activation. This module is intended to be
-  # used in standalone home-manager installations.
+# Manage secrets with home-manager. Keep encrypted secrets in the nix store,
+# and install decrypted copies upon activation. This module is intended to be
+# used in standalone home-manager installations.
 { config, lib, pkgs, unstablePkgs, shared, ... }:
 
 let

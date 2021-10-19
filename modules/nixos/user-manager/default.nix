@@ -95,7 +95,7 @@ in
         cfg.users;
 
     # Derive a home-manager user definition for every user manager user with
-    # a `home` attribute.
+    # a `home` attribute defined.
     home-manager.users =
       mapFilterAttrs
         (username: { home, ... }: nameValuePair username (import home))

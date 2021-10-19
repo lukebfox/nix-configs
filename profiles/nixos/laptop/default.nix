@@ -10,12 +10,7 @@ in
     network.wifi.enable = true;
   };
 
-  # CUPS printing.
-  services.printing = {
-    enable = true;
-    drivers = [ pkgs.hplip ];
-  };
-
+  # Useful packages
   environment.systemPackages = attrValues {
     inherit (pkgs)
       lsof       # list files files opened by processes
@@ -30,9 +25,6 @@ in
   # Audio support.
   hardware.pulseaudio.enable = true;
   nixpkgs.config.pulseaudio = true;
-
-  # Battery statistics
-  services.upower.enable = true;
 
   # to enable brightness keys 'keys' value may need updating per device
   #services.actkbd = {
@@ -51,22 +43,25 @@ in
   #  ];
   #};
 
-  # REVIEW does this interfere with window managers?
+  # REVIEW does this interfere with any window manager configuration?
   sound.mediaKeys = {
     enable = true;
     volumeStep = "1dB";
   };
 
   # Better NTP timesync for unstable internet connections.
-  services.chrony.enable = true;
   services.timesyncd.enable = false;
+  services.chrony.enable = true;
 
   # Weekly fstrim for SSD.
   services.fstrim.enable = true;
   services.fstrim.interval = "weekly";
 
-  # REVIEW how this fits in with gdm and awesomeWM
+  # REVIEW how does this fit in with gdm and awesomeWM
   services.logind.lidSwitch = "suspend";
+
+  # CUPS printing.
+  services.printing.enable = true;
 
   # Power management features.
   services.tlp.enable = true;
@@ -77,5 +72,8 @@ in
     "MAX_PERF_ON_AC" = 100;
     "MAX_PERF_ON_BAT" = 60;
   };
+
+  # Battery statistics
+  services.upower.enable = true;
 
 }

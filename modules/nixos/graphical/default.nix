@@ -23,8 +23,10 @@ in
     boot.plymouth.enable = true;
 
     # OpenGL support.
-    hardware.opengl.enable = true;
-    hardware.opengl.driSupport = true;
+    hardware.opengl = {
+      enable = true;
+      driSupport = true;
+    };
 
     # X Configuration.
     services.xserver = {

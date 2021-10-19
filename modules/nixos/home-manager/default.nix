@@ -11,6 +11,8 @@ let
 in
 {
 
+  ##### interface
+
   # Submodules have merge semantics, making it possible to amend
   # the `home-manager.users` submodule for additional functionality.
   options.home-manager.users = mkOption {
@@ -23,10 +25,12 @@ in
       # Make custom home-manager modules available.
       modules = (import ../../../modules/home-manager/list.nix) ++ [
         (base16.homeManagerModules.base16)
-         ../../../profiles/home-manager/common.nix
+        ../../../profiles/home-manager/common.nix
       ];
     });
   };
+
+  ##### implementation
 
   config = {
     home-manager.useUserPackages = true;

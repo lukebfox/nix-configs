@@ -4,9 +4,11 @@ let
   inherit (prev.lib) recursiveUpdate;
 in
 {
+  ## Additional Packages
+
   # My blog and cv :)
   blog = callPackage ./lukebentleyfox-net {};
-  cv   = callPackage ./cv {};
+  cv = callPackage ./cv {};
 
   # Useful templates for developers.
   #templates = callPackage ./templates {};

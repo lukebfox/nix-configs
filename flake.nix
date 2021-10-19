@@ -1,5 +1,5 @@
 {
-  description = "Personal Nix infrastructure, managed with bleeding edge NixOps";
+  description = "Personal Nix infrastructure, managed with NixOps 2.0";
 
   inputs = {
     nixpkgs.url          = "nixpkgs/nixos-unstable";
@@ -61,7 +61,7 @@
       # Attrset of deployable NixOps network configurations.
       nixopsConfigurations =
         let
-          # Import unstable and master package sets for NixOS.
+          # Import package sets for NixOS.
           pkgs         = pkgImport nixpkgs "x86_64-linux";
           unstablePkgs = pkgImport nixpkgs-unstable "x86_64-linux";
         in {
@@ -90,9 +90,7 @@
                   (home-manager.nixosModules.home-manager)
                   # Inline module to set defaults.
                   {
-                    imports = [
-                      ./profiles/nixos/common.nix
-                    ];
+                    imports = [ ./profiles/nixos/common.nix ];
                     nix.nixPath = [
                       "nixpkgs=${nixpkgs}"
                       "nixpkgs-unstable=${nixpkgs-unstable}"
@@ -107,7 +105,6 @@
             inherit pkgs unstablePkgs shared utilities;
           });
         };
-
 
       ##########################################################################
       ## NixOS Modules & NixOS Host Configurations
@@ -135,7 +132,7 @@
             specialArgs = { inherit pkgs shared; };
             extraArgs   = { inherit base16 unstablePkgs utilities; };
             # Make available various NixOS modules,
-            modules = (import ./modules/nixos/list.nix) ++ [
+            modules = import ./modules/nixos/list.nix ++ [
               (home-manager.nixosModules.home-manager)
               # Inline module to set defaults and import the host's config.
               {
@@ -178,7 +175,7 @@
                 inherit system pkgs unstablePkgs utilities shared;
               };
               configuration = {
-                imports = (import ./modules/home-manager/list.nix) ++ [
+                imports = import ./modules/home-manager/list.nix ++ [
                   (base16.homeManagerModules.base16)
                   ./profiles/home-manager/common.nix
                   ./profiles/home-manager/standalone.nix
@@ -234,7 +231,7 @@
           shellHook = ''
             mkdir -p data/secret
 
-            # use gpg-agent to handle SSH in this shell
+            # Force gpg-agent to handle SSH in this shell
             export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
             gpgconf --launch gpg-agent
           '';

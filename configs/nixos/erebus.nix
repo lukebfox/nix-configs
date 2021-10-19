@@ -1,8 +1,6 @@
 # A top-level nixos configuration for my old HP laptop
-{ shared, ... }:
+{ pkgs, ... }:
 {
-  ## Logical
-
   imports = [
     ../../profiles/nixos/laptop
     ../../profiles/nixos/desktop
@@ -10,7 +8,14 @@
     ../../profiles/nixos/users/lukebfox
   ];
 
-  ## Physical
+  ## Logical
+
+  services.printing.drivers = [ pkgs.hplip ];
+  services.xserver.libinput.touchpad.clickMethod = "buttonareas";
+
+  # Intel CPU
+  hardware.cpu.intel.updateMicrocode = true;
+  nix.maxJobs = 4; # Limit nix jobs to match number of cpu cores.
 
   # Use system EFI boot loader.
   boot.loader = {
@@ -30,6 +35,8 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [];
 
+  ## Physical
+
   # Declare partitions
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/f90957d0-89c7-4ab0-b272-6e964e83ac15";
@@ -43,9 +50,6 @@
     [ { device = "/dev/disk/by-uuid/25b75806-ee80-4e98-b867-eaabcd438e39"; }
     ];
 
-  # Limit nix jobs to match number of cpu cores.
-  nix.maxJobs = 4;
-
-  hardware.cpu.intel.updateMicrocode = true;
-  hardware.enableRedistributableFirmware = true;
+  #DONTCHANGE
+  system.stateVersion = "21.05";
 }

@@ -18,6 +18,8 @@ in
   ##### implementation
 
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.spotify ];
+    home.packages = [
+      pkgs.spotify
+    ];
   };
 }
