@@ -45,6 +45,7 @@ in
       iputils       # really
       dnsutils      # useful.
       vim           # Backup editor.
+      ranger        # File browser.
       bat           # Better cat.
       curl          # TCP/IP transfer tool.
       git git-crypt # Version control.
