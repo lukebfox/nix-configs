@@ -85,4 +85,6 @@ in
     ];
   };
 
+  hardware.enableRedistributableFirmware = mkDefault true;
+  hardware.enableAllFirmware = mkDefault true;
 }
