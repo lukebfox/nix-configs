@@ -2,16 +2,16 @@
 let
   inherit (lib) mkIf mkEnableOption mkOption types;
 
-  cfg = config.modules.tools.git;
+  cfg = config.modules.cli.git;
 in
 {
 
   ##### interface
 
   options = {
-    modules.tools.git.enable = mkEnableOption "Enable home-manager module for git.";
+    modules.cli.git.enable = mkEnableOption "Enable home-manager module for git.";
 
-    modules.tools.git.userName = mkOption {
+    modules.cli.git.userName = mkOption {
       example = "lukebfox";
       type = types.str;
       description = ''
@@ -19,7 +19,7 @@ in
       '';
     };
 
-    modules.tools.git.userEmail = mkOption {
+    modules.cli.git.userEmail = mkOption {
       example = "example@gmail.com";
       type = types.str;
       description = ''
@@ -27,7 +27,7 @@ in
       '';
     };
 
-    modules.tools.git.signingKey = mkOption {
+    modules.cli.git.signingKey = mkOption {
       example = "example@gmail.com";
       type = types.str;
       description = ''

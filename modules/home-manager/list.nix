@@ -3,13 +3,8 @@
   ./editor
   ./gaming
   ./music
-  ./music/ncmpcpp
   ./secrets
-  ./shell
+  ./cli
   ./social
-  ./terminal/kitty
-  ./terminal/iterm2
   ./standalone
-  ./tools/colorls
-  ./tools/git
 ]

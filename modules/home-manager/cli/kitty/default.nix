@@ -7,13 +7,13 @@ let
 
   colours = fileContents (base16template "kitty");
 
-  cfg = config.modules.terminal.kitty;
+  cfg = config.modules.cli.kitty;
 in
 {
 
   ##### interface
 
-  options.modules.terminal.kitty.enable = mkEnableOption "Enable home-manager module for kitty.";
+  options.modules.cli.kitty.enable = mkEnableOption "Enable home-manager module for kitty.";
 
   ##### implementation
 
@@ -120,9 +120,9 @@ in
         window_margin_width     = 12;
         window_padding_width    = 10;
         inactive_text_alpha     = 1;
-        background_opacity      = "0.5";
+        background_opacity      = "0.8";
         placement_strategy      = "center";
-        hide_window_decorations = true;
+        hide_window_decorations = false;
 
         # Layouts
         enabled_layouts = "*";

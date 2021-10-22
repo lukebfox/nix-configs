@@ -12,21 +12,17 @@ in
       enable = true;
       emacs.enable = true;
     };
-    shell = {
+    cli = {
       enable = true;
       zsh.enable = true;
-    };
-    terminal = {
       kitty.enable = true;
-    };
-    tools = {
+      colorls.enable = true;
       git = {
         enable = true;
         userName = username;
         userEmail = address;
         signingKey = address;
       };
-      colorls.enable = true;
     };
   };
 }

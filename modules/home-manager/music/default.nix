@@ -6,6 +6,12 @@ let
 in
 {
 
+  ##### bundled modules
+
+  imports = [
+    ./ncmpcpp
+  ];
+
   ##### interface
 
   options = {
@@ -20,6 +26,7 @@ in
   config = mkIf cfg.enable {
     home.packages = [
       pkgs.spotify
+      pkgs.bitwig-studio
     ];
   };
 }

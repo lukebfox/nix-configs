@@ -1,17 +1,17 @@
 { config, lib, pkgs, ... }:
 let
   inherit (builtins) attrValues readFile;
-  inherit (lib) concatStringsSep literalExample mapAttrsToList mkEnableOption mkIf mkOption types;
+  inherit (lib) concatStringsSep literalExpression mapAttrsToList mkEnableOption mkIf mkOption types;
 
-  cfg = config.modules.tools.colorls;
+  cfg = config.modules.cli.colorls;
 in
 {
   ##### interface
 
   options = {
-    modules.tools.colorls.enable = mkEnableOption "Enable home-manager module for colorls.";
+    modules.cli.colorls.enable = mkEnableOption "Enable home-manager module for colorls.";
 
-    modules.tools.colorls.colors = mkOption {
+    modules.cli.colorls.colors = mkOption {
       default =
         {
           # Main Colors
@@ -52,7 +52,7 @@ in
           untracked =    "magenta";
           unchanged =    "white";
         };
-      example = literalExample ''
+      example = literalExpression ''
         {
           unrecognized_file = "blue";
           recognised_file = "#ffffff";

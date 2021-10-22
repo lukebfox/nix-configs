@@ -7,13 +7,13 @@ let
 
   colours = fileContents (base16template "iterm2");
 
-  cfg = config.modules.terminal.iterm2;
+  cfg = config.modules.cli.iterm2;
 in
 {
 
   ##### interface
 
-  options.modules.terminal.iterm2.enable = mkEnableOption "Enable home-manager module for iterm2.";
+  options.modules.cli.iterm2.enable = mkEnableOption "Enable home-manager module for iterm2.";
 
   ##### implementation
 

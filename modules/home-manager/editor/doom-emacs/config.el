@@ -56,7 +56,7 @@
 
 (use-package! org
   :init
-  (setq org-directory "~/Projects/org/")
+  (setq org-directory "~/Org/")
 )
 
 (use-package! org-roam
@@ -64,7 +64,7 @@
   ;; add markdown extension to org-roam-file-extensions list
   (setq org-roam-file-extensions '("md" "org"))
   (setq org-roam-title-sources '((mdtitle title mdheadline headline) (mdalias alias)))
-  (setq org-roam-directory "~/Projects/org/roam/")
+  (setq org-roam-directory "~/Org/roam/")
   (setq org-roam-capture-templates
         '(("d" "default" plain #'org-roam-capture--get-point
                "%?"
