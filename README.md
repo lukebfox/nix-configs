@@ -5,7 +5,7 @@ This repository contains all my [Nix][1] configs and represents my personal infr
 - [NixOS][3] modules & configurations
 - [Home Manager][2] modules & configurations
 - Nixpkgs overlays & packages
-- library functions
+- Nix library functions
 
 For the full list run `nix flake show`.
 
@@ -31,7 +31,7 @@ Sometimes I want to deploy a NixOS configuration locally, without NixOps. The `n
   λ nixops-rebuild --flake ".#<name?>" switch
 ```
 
-Using the latest nix and symlinking this repo to `/etc/nixos` enables me to rebuild my system with a simple `nixos-rebuild switch`.
+Using the latest version of nix and symlinking this repo to `/etc/nixos` enables me to rebuild my system with a simple `nixos-rebuild switch`.
 
 ### Home Manager Configurations
 
