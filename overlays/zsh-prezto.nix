@@ -5,8 +5,8 @@ final: prev:
     zsh-prezto-contrib = prev.fetchFromGitHub {
       owner  = "belak";
       repo   = "prezto-contrib";
-      rev    = "2e2fc03c18a8960d3fb7f74a7a11f83f92b6bff3";
-      sha256 = "18ig6b5c023iwv4i6dn1zd4gsfiyh953l3mzq3171v9qwf55myiw";
+      rev    = "7ba7d42f92b90e5755763f6fe617d63dd1752019";
+      sha256 = "sha256-3jbbgBZk2CneaKkxaGB9BvU7sXxWr1+uDVTqh2w0cSM=";
       fetchSubmodules = true;
     };
   in prev.zsh-prezto.overrideAttrs (old: {
