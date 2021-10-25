@@ -21,18 +21,21 @@ in
       enableAutosuggestions = true;
       enableCompletion = true;
       autocd = true;
+      history.extended = true;
+      initExtra = ''
+      function nbhm () nix build ".#homeManagerConfigurations.$1.activationPackage" && ./result/activate;
+      '';
       sessionVariables.KEYTIMEOUT = 1; # https://www.johnhawthorn.com/2012/09/vi-escape-delays/
       shellAliases = {
         fastping = "ping -c 100 -i .2";
         ls  = "${pkgs.colorls}/bin/colorls";
         ll  = "${pkgs.colorls}/bin/colorls -Al --sd";
-        lt  = "${pkgs.colorls}/bin/colorls -A --sd --tree=2";
+        lt2  = "${pkgs.colorls}/bin/colorls -A --sd --tree=2";
         lt3 = "${pkgs.colorls}/bin/colorls -A --sd --tree=3";
         myip = "${pkgs.curl}/bin/curl http://ipecho.net/plain; echo";
         ngco = "sudo nix-collect-garbage --delete-old";
         nrs  = "sudo nixos-rebuild switch";
-        nbhm = "nix build '.#homeManagerConfigurations.luminance.activationPackage' && ./result/activate;"; #TODO make generic
-        nfix = "nix-store --verify --check-contents --repair";
+        nixfix = "nix-store --verify --check-contents --repair";
       };
       shellGlobalAliases = {
         C="| wc -l";
