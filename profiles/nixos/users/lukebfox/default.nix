@@ -8,4 +8,8 @@
       uid = 1000;
     };
   };
+  services.xserver.displayManager.autoLogin = {
+    enable = true;
+    user = "lukebfox";
+  };
 }
