@@ -21,7 +21,7 @@ in
   resources.hetznerCloudNetworks.dmz = {
     inherit apiToken;
     ipRange = "10.10.0.0/16";
-    subnets = ["10.10.10.0/24"];
+    subnets = [ "10.10.10.0/24" ];
   };
 
   bastion =
@@ -57,5 +57,5 @@ in
       fileSystems."/var/lib/hydra".hetznerCloud.volume = resources.hetznerCloudVolumes.volume1;
     };
 
-  resources.hetznerCloudVolumes.volume1 = { inherit apiToken; location="nbg1"; };
+  resources.hetznerCloudVolumes.volume1 = { inherit apiToken; location = "nbg1"; };
 }

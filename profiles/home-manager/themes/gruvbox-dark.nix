@@ -1,8 +1,8 @@
 { ... }:
 {
   themes.base16 = {
-    scheme  = "gruvbox";
+    scheme = "gruvbox";
     variant = "grubox-dark-hard";
-    extraParams =  { tone = "dark"; };
+    extraParams = { tone = "dark"; };
   };
 }

@@ -9,7 +9,8 @@ let
         builtins.elemAt
           node.config.deployment.hetznerCloud.serverNetworks
           0;
-    in dmzServerNetwork.privateIpAddress;
+    in
+    dmzServerNetwork.privateIpAddress;
 in
 {
   imports = [ ../../nixos/services/acme/dns-challenge.nix ];
@@ -68,7 +69,7 @@ in
       "*.${domain}" = {
         useACMEHost = domain;
         forceSSL = true;
-        root = runCommand "404" {} ''
+        root = runCommand "404" { } ''
           mkdir "$out"
           echo 404 not found > "$out/index.html"
         '';
@@ -77,5 +78,5 @@ in
   };
 
   # Let Nginx access certificates managed by ACME.
-  users.groups.acme.members = ["nginx"];
+  users.groups.acme.members = [ "nginx" ];
 }

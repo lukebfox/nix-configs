@@ -1,8 +1,8 @@
 { ... }:
 {
   themes.base16 = {
-    scheme  = "unclaimed";
+    scheme = "unclaimed";
     variant = "monokai";
-    extraParams =  { tone = "dark"; };
+    extraParams = { tone = "dark"; };
   };
 }

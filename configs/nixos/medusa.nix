@@ -1,13 +1,13 @@
 # A top-level nixos configuration for my Razer Blade 14 (2021)
-{ pkgs,  ... }:
+{ pkgs, ... }:
 let
-#  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-#    export __NV_PRIME_RENDER_OFFLOAD=1
-#    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-#    export __GLX_VENDOR_LIBRARY_NAME=nvidia
-#    export __VK_LAYER_NV_optimus=NVIDIA_only
-#    exec -a "$0" "$@"
-#  '';
+  #  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+  #    export __NV_PRIME_RENDER_OFFLOAD=1
+  #    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+  #    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+  #    export __VK_LAYER_NV_optimus=NVIDIA_only
+  #    exec -a "$0" "$@"
+  #  '';
 in
 {
   imports = [
@@ -19,11 +19,11 @@ in
 
   ## Logical
 
-  nix.systemFeatures = ["big-parallel"];
+  nix.systemFeatures = [ "big-parallel" ];
 
   # NVIDIA RTX3070
   #environment.systemPackages = [nvidia-offload]; # dont add me...
-  services.xserver.videoDrivers = [ "modesetting" "nvidia" "amdgpu"];
+  services.xserver.videoDrivers = [ "modesetting" "nvidia" "amdgpu" ];
   hardware.nvidia = {
     package = pkgs.linuxPackages_5_14.nvidia_x11_beta;
     powerManagement.enable = true;
@@ -48,7 +48,7 @@ in
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot";
     };
-    grub = { 
+    grub = {
       enable = true;
       version = 2;
       device = "nodev";
@@ -61,7 +61,7 @@ in
     };
   };
   boot.initrd = {
-    availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "amdgpu"];
+    availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "amdgpu" ];
     kernelModules = [ "dm-snapshot" ];
     # Declare luks partition.
     luks.devices.root = {
@@ -81,24 +81,25 @@ in
     "acpi_backlight=vendor"
     "nouveau.modeset=0"
   ];
-  boot.extraModulePackages = [];
+  boot.extraModulePackages = [ ];
 
   ## Physical
 
   # Declare partitions
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/eabf3cd6-1007-4983-be03-4b89afc946be";
+    {
+      device = "/dev/disk/by-uuid/eabf3cd6-1007-4983-be03-4b89afc946be";
       fsType = "xfs";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/E840-77FB";
+    {
+      device = "/dev/disk/by-uuid/E840-77FB";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/acf11f41-b903-4726-b279-0bd57f035348"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/acf11f41-b903-4726-b279-0bd57f035348"; }];
 
   #DONTCHANGE
   system.stateVersion = "21.11";

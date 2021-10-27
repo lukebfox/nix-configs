@@ -102,7 +102,7 @@
     ];
   };
 
-  # REVIEW better approach using capabilities.
+  # TODO more fine-grained approach using capabilities.
   security.sudo.enable = true;
 
   # Prevent loading of kernel modules during runtime.

@@ -33,22 +33,23 @@
   };
   # Second stage kernel module loading.
   boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [];
+  boot.extraModulePackages = [ ];
 
   ## Physical
 
   # Declare partitions
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/f90957d0-89c7-4ab0-b272-6e964e83ac15";
+    {
+      device = "/dev/disk/by-uuid/f90957d0-89c7-4ab0-b272-6e964e83ac15";
       fsType = "ext4";
     };
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/AAE2-F830";
+    {
+      device = "/dev/disk/by-uuid/AAE2-F830";
       fsType = "vfat";
     };
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/25b75806-ee80-4e98-b867-eaabcd438e39"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/25b75806-ee80-4e98-b867-eaabcd438e39"; }];
 
   #DONTCHANGE
   system.stateVersion = "21.05";
