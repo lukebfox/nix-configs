@@ -15,7 +15,7 @@ For the full list run `nix flake show`.
 
 The flake output `nixopsConfigurations` is an attribute set of NixOps networks. A network is declared with a NixOps configuration file located at `configs/nixops/<name>.nix`. NixOS configs can be reused in NixOps machine definitions. At the moment NixOps only supports deploying the single network at the fixed flake output fragment `nixopsConfigurations.default`.
 ```bash
-  λ cd the-nix-files
+  λ cd nix-configs
   λ nix develop # gives you a shiny nixops
   λ nixops create -d my-net --flake "."
   λ nixops deploy -d my-net
@@ -35,8 +35,8 @@ Using the latest version of nix and symlinking this repo to `/etc/nixos` enables
 
 ### Home Manager Configurations
 
-I use Home Manager in two different contexts, either as part of a system configuration, or standalone. Primarily I configure Home Manager from within my NixOS configurations. I use my custom user-manager NixOS module, which acts as a layer above the `users.users` and `home-manager.users` submodules, to create congruent user definitions for both NixOS and Home Manager. On my company Macbook I have a single-user nix installation, and while I don't have nix-darwin managing my system, I do use Home Manager for my user environment.
-Home Manager configurations themselves may be used by many users on many machines, and are declared in configuration files located at `configs/homes/<name?>.nix`. When used as part of a system configuration, no extra steps are needed to deploy the home configuration; nixops and nixos-rebuild both handle this as part of system deployment. When used standalone, deploy a Home Manager configuration with:
+I use Home Manager ~~in two different contexts, either~~ as part of a system configuration~~, or standalone~~. Primarily I configure Home Manager from within my NixOS configurations. I use my custom user-manager NixOS module, which acts as a layer above the `users.users` and `home-manager.users` submodules, to create congruent user definitions for both NixOS and Home Manager. ~~On my company Macbook I have a single-user nix installation, and while I don't have nix-darwin managing my system, I do use Home Manager for my user environment.~~
+Home Manager configurations themselves may be used by many users on many machines, and are declared in configuration files located at `configs/homes/<name?>.nix`. When used as part of a system configuration, no extra steps are needed to deploy the home configuration; nixops and nixos-rebuild both handle this as part of system deployment. ~~When used standalone, deploy a Home Manager configuration with:~~
 
 ``` bash
   λ cd nix-configs
@@ -56,7 +56,7 @@ I have a couple of custom nix packages such as my cv, website, e.t.c. that are n
   λ nix build ".#firacode-nerdfont"
 ```
 
-You can also reference these packages in another flake, for example: `inputs.the-nix-files.packages.x86_64-linux.firacode-nerdfont`.
+You can also reference these packages in another flake, for example: `inputs.nix-configs.packages.x86_64-linux.firacode-nerdfont`.
 
 ## Design
 
