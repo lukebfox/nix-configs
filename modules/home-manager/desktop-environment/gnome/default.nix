@@ -17,9 +17,9 @@ in
   ##### implementation
 
   config = mkIf cfg.enable {
-    
+
     home.file.".themes/WhiteSur".source = pkgs.whitesur-gnome;
-    
+
     home.packages = attrValues {
       # Dependencies
       inherit (pkgs)
@@ -65,8 +65,16 @@ in
         cursor-theme = "Bibata_Pink";
         enable-hot-corners = false;
       };
-      "org/gnome/gnome-session" = { auto-save-session = true; };
-      "org/gnome/mutter" = { center-new-windows = true; };
+      "org/gnome/gnome-session" = {
+        auto-save-session = true;
+      };
+      "org/gnome/mutter" = {
+        center-new-windows = true;
+      };
+      "org/gnome/settings-daemon/plugins/color" = {
+        night-light-enabled = true;
+        night-light-temperature = 1100;
+      };
       "org/gnome/shell" = {
         disable-user-extensions = false;
         disabled-user-extensions = [];
@@ -97,13 +105,13 @@ in
         shift-middle-click-action = "launch";
         running-indicator-dominant-color = true;
         running-indicator-style = "DASHES";
-	# visibility
-	intellihide = true;
+        # visibility
+        intellihide = true;
         isolate-workspaces=true;
-	autohide = true;
+        autohide = true;
         autohide-in-full-screen = true;
         require-pressure-to-show = true;
-	# transparency
+        # transparency
         transparency-mode = "FIXED";
         background-opacity = 0.1;
       };
