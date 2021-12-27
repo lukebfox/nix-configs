@@ -19,6 +19,7 @@ in
       vim           # Backup editor.
       bat           # Better cat.
       curl          # TCP/IP transfer tool.
+      jq            # JSON manipulator
       git git-crypt # Version control.
       neofetch      # System info.
       htop          # Better top.

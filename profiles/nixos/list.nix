@@ -12,8 +12,7 @@
 
   ./laptop
 
-  ./misc/syncthing.nix
-  ./misc/yubikey.nix
+  ./yubikey
 
   ./virtualisation/docker.nix
   ./virtualisation/libvirtd.nix

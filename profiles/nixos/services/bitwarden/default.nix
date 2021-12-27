@@ -8,13 +8,13 @@ in
   networking.firewall.allowedTCPPorts = [ 3012 8812 ];
 
   # Bitwarden server
-  services.bitwarden_rs = {
+  services.vaultwarden = {
     enable = true;
     #backupDir = "/mnt/bitwarden";
     config = {
-      WEB_VAULT_FOLDER = "${pkgs.bitwarden_rs-vault}/share/bitwarden_rs/vault";
+      WEB_VAULT_FOLDER = "${pkgs.vaultwarden-vault}/share/vaultwarden/vault";
       WEB_VAULT_ENABLED = true;
-      LOG_FILE = "/var/log/bitwarden";
+      LOG_FILE = "/var/log/vaultwarden";
       WEBSOCKET_ENABLED= true;
       WEBSOCKET_ADDRESS = "0.0.0.0";
       WEBSOCKET_PORT = 3012;
@@ -23,8 +23,8 @@ in
     };
   };
 
-  environment.systemPackages = [ pkgs.bitwarden_rs-vault ];
+  environment.systemPackages = [ pkgs.vaultwarden-vault ];
 
   # Let Bitwarden access the wildcard SSL certificates managed by ACME.
-  users.groups.acme.members = ["bitwarden_rs"];
+  users.groups.acme.members = ["vaultwarden"];
 }

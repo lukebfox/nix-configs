@@ -17,6 +17,7 @@ in
 {
 
   network.description = domain;
+  network.storage.legacy.databasefile = ../../data/secret/localstate.nixops;
 
   resources.hetznerCloudNetworks.dmz = {
     inherit apiToken;

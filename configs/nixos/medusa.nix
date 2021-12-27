@@ -1,6 +1,7 @@
 # A top-level nixos configuration for my Razer Blade 14 (2021)
 { pkgs, ... }:
 let
+  inherit (pkgs.linuxKernel.packages) linux_5_15;
   #  nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
   #    export __NV_PRIME_RENDER_OFFLOAD=1
   #    export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
@@ -12,6 +13,7 @@ in
 {
   imports = [
     ../../profiles/nixos/laptop
+    ../../profiles/nixos/razer
     ../../profiles/nixos/desktop
     ../../profiles/nixos/workstation
     ../../profiles/nixos/users/lukebfox
@@ -25,7 +27,7 @@ in
   #environment.systemPackages = [nvidia-offload]; # dont add me...
   services.xserver.videoDrivers = [ "modesetting" "nvidia" "amdgpu" ];
   hardware.nvidia = {
-    package = pkgs.linuxPackages_5_14.nvidia_x11_beta;
+    package = linux_5_15.nvidia_x11_beta;
     powerManagement.enable = true;
     modesetting.enable = true;
     prime = {
@@ -73,7 +75,7 @@ in
       preLVM = true;
     };
   };
-  boot.kernelPackages = pkgs.linuxPackages_5_14;
+  boot.kernelPackages = linux_5_15;
   # Second stage kernel module loading
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernelParams = [

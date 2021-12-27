@@ -57,7 +57,7 @@ in
       # FIXME
       # Currently this diffs a directory `.doom.d` which always returns true,
       # wasting time recopying needlessly
-      home.file.".doom.d/" = {
+      home.file.".doom.d" = {
         source = toString ./doom-emacs;
         recursive = true;
         onChange = ''

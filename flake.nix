@@ -53,6 +53,9 @@
       };
 
     in {
+
+      # Why output this? Because you'll need to reference this to use any modules
+      # which rely on my lib functions.
       lib = utilities;
 
       ##########################################################################
@@ -95,7 +98,7 @@
                       "nixpkgs=${nixpkgs}"
                       "nixpkgs-unstable=${nixpkgs-unstable}"
                     ];
-                    # NOTE This seems to work in lieu of a specialArgs option.
+                    # NOTE Using this is satisfactory in lieu of a specialArgs option.
                     nixpkgs.pkgs = pkgs;
                   }
                 ];
@@ -123,19 +126,18 @@
           unstablePkgs = pkgImport nixpkgs system;
           mkNixosConfiguration = hostName: nixosSystem {
             inherit system;
-            /* Things in these sets are passed to NixOS modules and made
-               accessible in the top-level arguments i.e.
-               `{ config, pkgs, lib, usr, base16, unstablePkgs, ... }:`
-               specialArgs get evaluated when resolving module structure.
-               `_module.args` is built from specialArgs and extraArgs.
+            /* This should only be used for special arguments that need to be
+               evaluated when resolving module structure (like in imports).
+               specialArgs also gets included in _module.args
              */
             specialArgs = { inherit pkgs shared; };
-            extraArgs   = { inherit base16 unstablePkgs utilities; };
             # Make available various NixOS modules,
             modules = import ./modules/nixos/list.nix ++ [
               (home-manager.nixosModules.home-manager)
               # Inline module to set defaults and import the host's config.
               {
+                # Augment standard NixOS module arguments.
+                _module.args = { inherit base16 unstablePkgs utilities; };
                 imports = [
                   (./configs/nixos + "/${hostName}.nix")
                   ./profiles/nixos/common.nix
@@ -158,6 +160,8 @@
       homeManagerModules = exportableModules "home-manager";
 
       /*
+      NOTE: Commented because I no longer have non-nixos machines to manage.
+
       # Attrset of home-manager configurations installable locally with:
       # `nix build .#<name?>.activationPackage && ./result/activate`
       homeManagerConfigurations =
@@ -231,7 +235,8 @@
           shellHook = ''
             mkdir -p data/secret
 
-            # Force gpg-agent to handle SSH in this shell
+            # Force gpg-agent to handle SSH in this shell.
+            # Required for yubikey gpg+ssh authentication pre-installation.
             export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
             gpgconf --launch gpg-agent
           '';

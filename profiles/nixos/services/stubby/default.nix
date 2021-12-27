@@ -1,4 +1,5 @@
 # Use DNS-over-TLS to increase privacy, with a local DNS cache for efficiency.
+{...}:
 {
   # Enable Stubby, a local DNS Privacy stub resolver.
   services.stubby = {

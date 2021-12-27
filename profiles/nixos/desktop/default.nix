@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
-    ../misc/yubikey.nix
+    ../yubikey
   ];
 
   modules = {

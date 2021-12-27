@@ -1,9 +1,10 @@
 # Security profile for moderate linux kernel harderning. (v5.4)
 # see: https://madaidans-insecurities.github.io/guides/linux-hardening.html
+# REVIEW (26/12/2021)
 { config, lib, pkgs, ... }:
 {
   boot = {
-    kernelPackages = pkgs.linuxPackages_hardened;
+    kernelPackages = pkgs.linuxKernel.packages.linux_hardened;
     kernelParams = [
       # Disable hibernation (can allow replacing kernel).
       "nohibernate"

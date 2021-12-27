@@ -2,7 +2,7 @@
 { ... }:
 {
 
-  # TODO check efficacy
+  # REVIEW
   security.sudo.wheelNeedsPassword = false;
 
   # Enable sudo logins if the user's SSH agent

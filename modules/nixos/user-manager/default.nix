@@ -85,6 +85,7 @@ in
             [ "builders" ]
             ++ cfg.userGroups
             ++ (optional isAdmin "wheel")
+            ++ (optional config.hardware.openrazer.enable "openrazer")
             ++ (optional config.modules.network.enable "networkmanager")
             ++ (optional config.hardware.pulseaudio.enable "audio");
           shell = pkgs.zsh;

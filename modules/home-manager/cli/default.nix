@@ -30,10 +30,7 @@ in
       enable = true;
       enableZshIntegration = cfg.zsh.enable;
       config.global.warn_timeout = "1m";
-      nix-direnv = {
-        enable = true;
-        enableFlakes = true;
-      };
+      nix-direnv.enable = true;
     };
 
     programs.command-not-found.enable = true;
