@@ -1,54 +1,82 @@
 # Security profile for moderate linux kernel harderning. (v5.4)
 # see: https://madaidans-insecurities.github.io/guides/linux-hardening.html
-# REVIEW (26/12/2021)
-{ config, lib, pkgs, ... }:
+# REVIEW: last reviewed: 29/12/2021
+{ config, pkgs, ... }:
 {
+  # jemalloc alternative
+  environment.memoryAllocator.provider = "scudo";
+  environment.variables.SCUDO_OPTIONS = "ZeroContents=1";
+
+  # Disable kernel module loading once the system is fully initialised.
+  # Module loading is disabled until the next reboot.
+  security.lockKernelModules = true;
+
+  # Side effect: disables hibernation
+  security.protectKernelImage = true;
+
+  # Mitigate Meltdown and prevent some KASLR bypasses.
+  security.forcePageTableIsolation = true;
+
+  # Restrict use of user namespaces to CAP_SYS_ADMIN capability.
+  # This is required by podman to run containers in rootless mode.
+  security.unprivilegedUsernsClone = config.virtualisation.containers.enable;
+
+  # Flush l1 cache before entering guests.
+  security.virtualisation.flushL1DataCache = "always";
+  # Supplements cache flushing. No SMT/hyperthreading.
+  security.allowSimultaneousMultithreading = true;
+
+  security.apparmor.enable = true;
+  security.apparmor.killUnconfinedConfinables = true;
+
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_hardened;
     kernelParams = [
-      # Disable hibernation (can allow replacing kernel).
-      "nohibernate"
-      # Mitigate heap exploitation by overwriting objects from merged caches.
-      "slab_nomerge"
-      # Enable slab sanity checks and redzoning.
-      "slub_debug=FZ"
+      # Enable slab sanity checks, redzoning and poisoning.
+      "slub_debug=FZP"
       # Enable zeroing of memory during allocation and free time.
       "init_on_alloc=1" "init_on_free=1"
       # Randomise page allocator freelists.
       "page_alloc.shuffle=1"
-      # Mitigate Meltdown and prevent some KASLR bypasses by forcing page table isolation.
-      "pti=on"
-      # Flush l1 cache before entering guests.
-      "kvm-intel.vmentry_l1d_flush=always"
-      # Remove obsolete vsyscall and potential ROP attack target.
-      "vsyscall=0"
     ];
     kernel.sysctl = {
       # Hide kernel pointers from processes without the CAP_SYSLOG capability.
       "kernel.kptr_restrict"=1;
-      # Restricts the kernel log to CAP_SYSLOG capability.
-      "kernel.dmesg_restrict"=1;
       # Prevent information leak from kernel logging to screen during boot.
       "kernel.printk"=3333;
-      # Enable JIT hardening techniques such as constant binding.
-      "net.core.bpf_jit_harden"=2;
       # Restrict loading TTY line disciplines to the CAP_SYS_MODULE capability.
       "dev.tty.ldisc_autoload"=0;
-      # Prevent replacing the running kernel image.
-      "kernel.kexec_load_disabled"=1;
       # Make it so a user can only use the secure attention key which is required to access root securely.
       "kernel.sysrq"=4;
-      # Restrict use of user namespaces to CAP_SYS_ADMIN capability.
-      "kernel.unprivileged_userns_clone"=0;
       # Protect against SYN flooding.
       "net.ipv4.tcp_syncookies"=1;
       # Protect against time-wait assasination.
       "net.ipv4.tcp_rfc1337"=1;
-      # Protect against IP spoofing by enabling source validation.
-      "net.ipv4.conf.all.rp_filter"=1;
-      "net.ipv4.conf.default.rp_filter"=1;
-      # Protect against smurf attacks and clock fingerprinting via ICMP timestamping.
-      "net.ipv4.icmp_echo_ignore_all"=1;
+
+      # Enable strict reverse path filtering (that is, do not attempt to route
+      # packets that "obviously" do not belong to the iface's network; dropped
+      # packets are logged as martians).
+      "net.ipv4.conf.all.log_martians" = true;
+      "net.ipv4.conf.all.rp_filter" = "1";
+      "net.ipv4.conf.default.log_martians" = true;
+      "net.ipv4.conf.default.rp_filter" = "1";
+
+      # Protect against SMURF attacks and clock fingerprinting via ICMP timestamping.
+      "net.ipv4.icmp_echo_ignore_all" = "1";
+
+      # Ignore incoming ICMP redirects (note: default is needed to ensure that the
+      # setting is applied to interfaces added after the sysctls are set)
+      "net.ipv4.conf.all.accept_redirects" = false;
+      "net.ipv4.conf.all.secure_redirects" = false;
+      "net.ipv4.conf.default.accept_redirects" = false;
+      "net.ipv4.conf.default.secure_redirects" = false;
+      "net.ipv6.conf.all.accept_redirects" = false;
+      "net.ipv6.conf.default.accept_redirects" = false;
+
+      # Ignore outgoing ICMP redirects (this is ipv4 only)
+      "net.ipv4.conf.all.send_redirects" = false;
+      "net.ipv4.conf.default.send_redirects" = false;
+
       # Restrict abritrary use of ptrace to the CAP_SYS_PTRACE capability.
       "kernel.yama.ptrace_scope"=2;
     };
@@ -90,6 +118,7 @@
       "jffs2"
       "minix"
       "nilfs2"
+      "ntfs"
       "omfs"
       "qnx4"
       "qnx6"
@@ -103,9 +132,4 @@
     ];
   };
 
-  # TODO more fine-grained approach using capabilities.
-  security.sudo.enable = true;
-
-  # Prevent loading of kernel modules during runtime.
-  security.lockKernelModules = true;
 }
