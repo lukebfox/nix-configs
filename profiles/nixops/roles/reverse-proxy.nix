@@ -55,6 +55,7 @@ in
           };
         };
       };
+      /*
       # Build farmer
       "hydra.${domain}" = {
         useACMEHost = domain;
@@ -64,6 +65,7 @@ in
           proxyWebsockets = true;
         };
       };
+      */
       # Wildcard DNS will match all subdomains even non-existing ones,
       # so fallback to 404 if no other virtualHosts gets matched.
       "*.${domain}" = {
