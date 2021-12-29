@@ -64,6 +64,7 @@ in
         clock-show-weekday = true;
         cursor-theme = "Bibata_Pink";
         enable-hot-corners = false;
+        show-battery-percentage = true;
       };
       "org/gnome/gnome-session" = {
         auto-save-session = true;
@@ -73,7 +74,7 @@ in
       };
       "org/gnome/settings-daemon/plugins/color" = {
         night-light-enabled = true;
-        night-light-temperature = 1100;
+        night-light-temperature = 1400;
       };
       "org/gnome/shell" = {
         disable-user-extensions = false;

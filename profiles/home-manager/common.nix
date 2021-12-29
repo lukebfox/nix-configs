@@ -16,19 +16,24 @@ in
       moreutils     # are
       binutils      # just
       dnsutils      # useful.
-      vim           # Backup editor.
-      bat           # Better cat.
+      # GNU replacements
+      htop          # top
+      exa           # ls (rust)
+      ripgrep       # grep (rust)
+      bat           # cat (rust)
+      fd            # find (rust)
+      procs         # ps (rust)
+      # Common utils
       curl          # TCP/IP transfer tool.
       jq            # JSON manipulator
-      git git-crypt # Version control.
+      rustscan      # Better nmap (rust).
+      socat # Netcat, curl and socat for WebSockets (rust).
+      tealdeer      # Better tldr (rust).
       neofetch      # System info.
-      htop          # Better top.
-      ripgrep       # grep alternative.
-      fd            # find alternative.
+      # Archive utils
       bzip2
       gzip
       p7zip
-      procs
       unrar
       unzip;
     };

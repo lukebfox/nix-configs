@@ -54,11 +54,6 @@
   (setq md-roam-use-markdown-file-links t)
 )
 
-(use-package! org
-  :init
-  (setq org-directory "~/Org/")
-)
-
 (use-package! org-roam
   :init
   ;; add markdown extension to org-roam-file-extensions list

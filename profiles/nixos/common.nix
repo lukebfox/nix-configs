@@ -45,14 +45,10 @@ in
       iputils       # really
       dnsutils      # useful.
       vim           # Backup editor.
-      ranger        # File browser.
-      bat           # Better cat.
-      curl          # TCP/IP transfer tool.
       git git-crypt # Version control.
+      curl          # TCP/IP transfer tool.
+      ranger        # File browser.
       neofetch      # System info.
-      htop          # Better top.
-      ripgrep       # grep alternative.
-      fd            # find alternative.
       mkpasswd      # Word hasher.
       gptfdisk      # Filesystem
       dosfstools    # utilities.
