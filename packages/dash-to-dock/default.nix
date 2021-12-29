@@ -11,6 +11,7 @@ stdenv.mkDerivation rec {
   version = "unstable-2021-10-31";
 
   # temporarily switched to commit hash because GNOME 41 version is not released yet.
+  # NOTE: this commit is now tagged v71
   src = fetchFromGitHub {
     owner = "micheleg";
     repo = "dash-to-dock";
