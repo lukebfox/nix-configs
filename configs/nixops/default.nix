@@ -59,5 +59,5 @@ in
       fileSystems."/var/lib/hydra".hetznerCloud.volume = resources.hetznerCloudVolumes.volume1;
     };
   */
-  resources.hetznerCloudVolumes.volume1 = { inherit apiToken; location = "nbg1"; };
+  #resources.hetznerCloudVolumes.volume1 = { inherit apiToken; location = "nbg1"; };
 }

@@ -1,6 +1,6 @@
 { nixosConfig, config, lib, pkgs, ... }:
 let
-  inherit (lib) mkIf mkEnableOption mkOption mkMerge types;
+  inherit (lib) mkIf mkEnableOption mkOption types;
 
   cfg = config.modules.gaming;
 in

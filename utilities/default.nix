@@ -2,9 +2,8 @@
 { lib }:
 let
   inherit (builtins) attrNames attrValues baseNameOf isAttrs listToAttrs readDir;
-  inherit (lib) concatStringsSep fileContents filterAttrs flatten hasSuffix
-                mapAttrs mapAttrs' mapAttrsToList mkMerge nameValuePair
-                removeSuffix;
+  inherit (lib) concatStringsSep filterAttrs flatten hasSuffix mapAttrs mapAttrs'
+    mapAttrsToList nameValuePair removeSuffix;
 
   # Generate an attribute set by mapping a function over a list of values.
   genAttrs' = values: f: listToAttrs (map f values);
@@ -164,8 +163,8 @@ let
 
   exportableModules = namespace:
     let
-      moduleList  = import ../../modules + "/${namespace}/list.nix";
-      profileList = import ../../profiles + "/${namespace}/list.nix";
+      moduleList  = import ../modules/${namespace}/list.nix;
+      profileList = import ../profiles/${namespace}/list.nix;
         in pathsToImportedAttrs moduleList // {
           profiles = pathsToImportedAttrs profileList;
         };

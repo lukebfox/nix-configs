@@ -1,7 +1,6 @@
-{ pkgs, ... }:
 {
   imports = [
-    ../yubikey
+    ../devices/yubikey
   ];
 
   modules = {

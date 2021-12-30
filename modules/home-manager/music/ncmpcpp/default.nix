@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  inherit (lib) mkIf mkEnableOption mkMerge mkOption types;
+  inherit (lib) mkIf mkEnableOption;
 
   cfg = config.modules.programs.ncmpcpp;
 in

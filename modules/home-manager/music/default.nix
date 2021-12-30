@@ -1,6 +1,6 @@
 { nixosConfig, config, lib, pkgs, ... }:
 let
-  inherit (lib) mkIf mkEnableOption mkOption mkMerge types;
+  inherit (lib) mkIf mkEnableOption;
 
   cfg = config.modules.music;
 in

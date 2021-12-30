@@ -63,7 +63,30 @@ in
     };
   };
   boot.initrd = {
-    availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "amdgpu" ];
+    availableKernelModules = [
+      # NOTE: obtained from lspci -v
+      "amdgpu"
+      #i2c_piix4
+      #"iwlwifi"
+      #k10temp
+      "nvme"
+      #"nvidiafb"
+      #"nouveau"
+      #"nvidiadrm"
+      #"nvidia"
+      #pcieport
+      #sp5100_tco
+      #"snd_pci_acp3x"
+      #"snd_rn_pci_acp3x"
+      #"snd_pci_acp5x"
+      #"snd_hda_intel"
+      #"xhci_hcd"
+      # REVIEW: do i need these?
+      "xhci_pci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
     kernelModules = [ "dm-snapshot" ];
     # Declare luks partition.
     luks.devices.root = {

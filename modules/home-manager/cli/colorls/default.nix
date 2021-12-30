@@ -1,6 +1,5 @@
 { config, lib, pkgs, ... }:
 let
-  inherit (builtins) attrValues readFile;
   inherit (lib) concatStringsSep literalExpression mapAttrsToList mkEnableOption mkIf mkOption types;
 
   cfg = config.modules.cli.colorls;

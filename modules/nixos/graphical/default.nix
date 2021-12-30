@@ -5,7 +5,7 @@
 
 let
   inherit (builtins) attrValues;
-  inherit (lib) mkIf mkMerge mkOption mkEnableOption optional types;
+  inherit (lib) mkIf mkEnableOption optional;
 
   cfg = config.modules.graphical;
 in

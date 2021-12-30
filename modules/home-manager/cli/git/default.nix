@@ -1,4 +1,4 @@
-{ config, lib, ... } @ args:
+{ config, lib, ... }:
 let
   inherit (lib) mkIf mkEnableOption mkOption types;
 

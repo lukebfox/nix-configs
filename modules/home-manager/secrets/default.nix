@@ -4,8 +4,7 @@
 { config, lib, pkgs, unstablePkgs, shared, ... }:
 
 let
-  inherit (builtins) attrValues;
-  inherit (lib) mapAttrs mkIf mkMerge mkOption mkEnableOption optional types readFile;
+  inherit (lib) mapAttrs mkOption types;
 
   cfg = config.modules.secrets;
 

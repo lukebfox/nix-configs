@@ -1,8 +1,8 @@
 { config, lib, pkgs, unstablePkgs, shared, ... }:
 
 let
-  inherit (builtins) attrValues hasAttr;
-  inherit (lib) mapAttrs' mkIf mkMerge mkOption mkEnableOption optional types readFile;
+  inherit (builtins) hasAttr;
+  inherit (lib) mapAttrs' mkOption types;
 
   # To encrypt secrets we must use the ssh host public key of the target machine.
   # This module supports two methods of deployment, nixops and nixos-rebuild.

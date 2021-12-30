@@ -2,7 +2,7 @@
 
 let
   inherit (builtins) attrValues;
-  inherit (lib) mkIf mkMerge mkOption mkEnableOption types;
+  inherit (lib) mkIf mkMerge mkEnableOption;
 
   cfg = config.modules.gaming;
 in

@@ -1,7 +1,6 @@
 final: prev:
 let
   inherit (prev) callPackage;
-  inherit (prev.lib) recursiveUpdate;
 in
 {
   # My blog and cv :)
@@ -14,6 +13,7 @@ in
   # Subset of nerdfonts containing only a patched fira code font.
   firacode-nerdfont = callPackage ./firacode-nerdfont { };
 
-  whitesur-gnome = callPackage ./whitesur-gnome { };
-  gnomeExtensions = recursiveUpdate prev.gnomeExtensions { dash-to-dock = callPackage ./dash-to-dock { }; };
+  # Gnome stuff
+  whitesur-gnome = callPackage ./whitesur-gnome { }; # shell theme
+  dash-to-dock = callPackage ./dash-to-dock { }; # '41 extension
 }

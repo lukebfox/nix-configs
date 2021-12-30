@@ -2,7 +2,7 @@
 
 let
   inherit (builtins) readDir;
-  inherit (lib) mapAttrs mkIf mkEnableOption mkOption mkMerge recursiveUpdate types;
+  inherit (lib) mapAttrs mkIf mkEnableOption mkMerge;
 
   cfg = config.modules.network;
 in
@@ -57,6 +57,7 @@ in
               permissions = "0600";
             })
             (readDir connectionsDir);
+
     })
 
   ]);

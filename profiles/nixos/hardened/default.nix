@@ -1,7 +1,10 @@
 # Security profile for moderate linux kernel harderning. (v5.4)
 # see: https://madaidans-insecurities.github.io/guides/linux-hardening.html
 # REVIEW: last reviewed: 29/12/2021
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
+let
+  inherit (lib) optionals;
+in
 {
   # jemalloc alternative
   environment.memoryAllocator.provider = "scudo";
@@ -124,11 +127,14 @@
       "qnx6"
       "sysv"
       "udf"
-     # Miscellaneous
+    # Miscellaneous
       "vivid"     # Video Test Driver (unnecessary)
-      #"bluetooth" # Bluetooth
-      #"btusb"     # Bluetooth
       #"uvcvideo"  # Webcam
+    ] ++ optionals (!config.modules.network.enable) [
+      "iwlwifi"    # NIC
+    ] ++ optionals (!config.modules.network.bluetooth.enable) [
+      "bluetooth" # Bluetooth
+      "btusb"     # Bluetooth
     ];
   };
 

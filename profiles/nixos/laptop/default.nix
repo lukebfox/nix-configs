@@ -3,6 +3,10 @@ let
   inherit (builtins) attrValues;
 in
 {
+  imports = [
+    ../devices/ssd
+    ../devices/yubikey
+  ];
 
   modules = {
     network.enable = true;
@@ -52,10 +56,6 @@ in
   # Better NTP timesync for unstable internet connections.
   services.timesyncd.enable = false;
   services.chrony.enable = true;
-
-  # Weekly fstrim for SSD.
-  services.fstrim.enable = true;
-  services.fstrim.interval = "weekly";
 
   # REVIEW how does this fit in with gdm and awesomeWM
   services.logind.lidSwitch = "suspend";

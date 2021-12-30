@@ -1,7 +1,7 @@
+# NOTE: this works for
 { config, lib, pkgs, ... }:
 let
-  inherit (builtins) attrValues;
-  inherit (lib) mkIf mkMerge mkOption mkEnableOption types;
+  inherit (lib) mkIf mkOption mkEnableOption types;
 
   cfg = config.modules.services.valheim;
 

@@ -1,7 +1,7 @@
 { config, lib, pkgs, unstablePkgs, shared, ... }:
 let
   inherit (builtins) attrValues;
-  inherit (lib) fileContents mkDefault;
+  inherit (lib) mkDefault;
   inherit (shared.users.lukebfox) ssh-public-key;
 in
 {

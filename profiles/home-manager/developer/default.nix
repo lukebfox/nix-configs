@@ -1,6 +1,6 @@
 { config, lib, pkgs, shared, ... }:
 let
-  inherit (lib) mkDefault fileContents;
+  inherit (lib) fileContents;
   inherit (config.home) username;
 
   address = fileContents

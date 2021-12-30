@@ -4,11 +4,20 @@
   inputs = {
     nixpkgs.url          = "nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "nixpkgs/master";
-    home-manager.url     = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixops-plugged.url   = "github:lukebfox/nixops-plugged";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    deadnix = {
+      url = "github:astro/deadnix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     emacs-overlay.url    = "github:nix-community/emacs-overlay";
-    rust-overlay.url     = "github:oxalica/rust-overlay";
     base16.url           = "github:lukebfox/base16-nix";
     flake-utils.url      = "github:numtide/flake-utils";
   };
@@ -21,13 +30,14 @@
             , emacs-overlay
             , rust-overlay
             , base16
+            , deadnix
             , flake-utils
             , ... } @ inputs:
     let
       # Bring some lib functions into scope.
       inherit (builtins) attrValues;
       inherit (nixpkgs.lib) importTOML nixosSystem optionalString;
-      inherit (home-manager.lib) homeManagerConfiguration;
+      #inherit (home-manager.lib) homeManagerConfiguration;
       inherit (flake-utils.lib) eachDefaultSystem;
 
       # Import my lib and bring some functions into scope.
@@ -35,8 +45,6 @@
       inherit (utilities)
         exportableModules
         importOverlays
-        importSecrets
-        pathsToImportedAttrs
         recImport;
 
       # Import shared data.
@@ -230,6 +238,7 @@
             pkgs.git
             pkgs.git-crypt
             pkgs.nixFlakes
+            deadnix.defaultPackage.${system}
             nixops-plugged.packages.${system}.nixops-hetznercloud
           ];
           shellHook = ''

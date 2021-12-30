@@ -1,4 +1,4 @@
-{ stdenv, lib, ... }:
+{ stdenv, ... }:
 stdenv.mkDerivation {
   name = "whitesur-shell-theme";
   src = ./WhiteSur-light;

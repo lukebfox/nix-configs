@@ -5,14 +5,15 @@
 [
 
   ## Building-block profiles ##
+  ./devices/yubikey
+  ./devices/ssd
+
   ./hardened
 
   ./headless
   ./headless/qemu-guest.nix
 
   ./laptop
-
-  ./yubikey
 
   ./virtualisation/docker.nix
   ./virtualisation/libvirtd.nix

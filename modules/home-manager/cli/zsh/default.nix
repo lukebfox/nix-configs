@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  inherit (builtins) attrValues readFile;
-  inherit (lib) mkEnableOption mkIf mkMerge;
+  inherit (lib) mkEnableOption mkIf;
 
   cfg = config.modules.cli.zsh;
 in

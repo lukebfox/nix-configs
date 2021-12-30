@@ -1,7 +1,6 @@
-{ config, lib, pkgs, ... } @ args:
+{ config, lib, pkgs, ... }:
 
 let
-  inherit (builtins) head;
   inherit (config.lib.base16) base16template;
   inherit (lib) fileContents mkIf mkEnableOption;
 

@@ -9,7 +9,7 @@
 with lib;
 
 let
-  inherit (utilities) mapFilterAttrs recImport;
+  inherit (utilities) mapFilterAttrs;
   inherit (shared.users.lukebfox) ssh-public-key;
 
 
