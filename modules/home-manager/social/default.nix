@@ -20,9 +20,13 @@ in
       inherit (pkgs)
         element-desktop
         signal-desktop
+        whatsapp-for-linux
         zoom-us
-        jitsi-meet;
+        discord;
       };
+    home.file.".config/discord/settings.json".text = ''
+      "SKIP_HOST_UPDATE": true
+    '';
   };
 
 }
