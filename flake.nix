@@ -2,24 +2,15 @@
   description = "Personal Nix infrastructure, managed with NixOps 2.0";
 
   inputs = {
-    nixpkgs.url          = "nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "nixpkgs/master";
-    nixops-plugged.url   = "github:lukebfox/nixops-plugged";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    deadnix = {
-      url = "github:astro/deadnix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    emacs-overlay.url    = "github:nix-community/emacs-overlay";
-    base16.url           = "github:lukebfox/base16-nix";
-    flake-utils.url      = "github:numtide/flake-utils";
+    nixpkgs =          { url = "nixpkgs/nixos-unstable"; };
+    nixpkgs-unstable = { url = "nixpkgs/master"; };
+    nixops-plugged =   { url = "github:lukebfox/nixops-plugged"; };
+    home-manager =     { url = "github:nix-community/home-manager"; inputs.nixpkgs.follows = "nixpkgs"; };
+    deadnix =          { url = "github:astro/deadnix"; inputs.nixpkgs.follows = "nixpkgs"; };
+    rust-overlay =     { url = "github:oxalica/rust-overlay"; inputs.nixpkgs.follows = "nixpkgs"; };
+    emacs-overlay =    { url = "github:nix-community/emacs-overlay"; };
+    base16 =           { url = "github:lukebfox/base16-nix"; };
+    flake-utils =      { url = "github:numtide/flake-utils"; };
   };
 
   outputs = { self

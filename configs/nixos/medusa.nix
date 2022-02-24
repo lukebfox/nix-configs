@@ -21,7 +21,7 @@ in
 
   ## Logical
 
-  nix.systemFeatures = [ "big-parallel" ];
+  nix.settings.system-features = [ "big-parallel" ];
 
   # NVIDIA RTX3070
   #environment.systemPackages = [nvidia-offload]; # dont add me...
@@ -40,7 +40,7 @@ in
 
   # AMD RYZEN 9 5900HX
   hardware.cpu.amd.updateMicrocode = true;
-  nix.maxJobs = 8; # Limit nix jobs to match number of cpu cores.
+  nix.settings.max-jobs = 8; # Limit nix jobs to match number of cpu cores.
 
   # DUAL BOOT WINDOWS
   # Use system EFI boot loader.

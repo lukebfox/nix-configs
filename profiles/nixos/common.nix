@@ -10,24 +10,28 @@ in
 
   nix = {
     package = unstablePkgs.nixUnstable;
-    systemFeatures = [ "nixos-test" "benchmark" ];
-    autoOptimiseStore = mkDefault true;
-    gc.automatic = mkDefault true;
-    gc.dates = mkDefault "00:00";
-    gc.options = mkDefault "--delete-older-than 7d";
-    sandboxPaths = [ "/bin/sh=${pkgs.bash}/bin/sh" ]; # https://github.com/NixOS/nixpkgs/issues/124372
-    trustedBinaryCaches = [
+    gc = {
+      automatic = mkDefault true;
+      dates = mkDefault "00:00";
+      options = mkDefault "--delete-older-than 7d";
+    };
+    settings = {
+      system-features = [ "nixos-test" "benchmark" ];
+      auto-optimise-store = mkDefault true;
+      extra-sandbox-paths = [ "/bin/sh=${pkgs.bash}/bin/sh" ]; # https://github.com/NixOS/nixpkgs/issues/124372
+      trusted-substituters = [
       # "https://iohk.cachix.org"
-    ];
-    binaryCachePublicKeys = [
-      # "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
-    ];
-    allowedUsers = [ "@wheel" ];
-    trustedUsers = [ "root" "@wheel" ];
+      ];
+      trusted-public-keys = [
+        # "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
+      ];
+      allowed-users = [ "@wheel" ];
+      trusted-users = [ "root" "@wheel" ];
+    };
     extraOptions = mkDefault ''
       keep-outputs = true
       keep-derivations = true
-      experimental-features = nix-command flakes ca-references
+      experimental-features = nix-command flakes
     '';
   };
 
@@ -65,10 +69,7 @@ in
   # Enable early out of memory killing.
   services.earlyoom.enable = mkDefault true;
 
-  users.users.root = {
-    initialHashedPassword = mkDefault "$6$Br94NDGbCd44UN1f$cDJaZ8YWYKp9fzVyIrkdQaG8ZMca4IXqcqX2v2So80taR/YqnLhYACaiZ/EDo/UkjDiOUUOi3f8/ovzCg7Ewg1";
-    openssh.authorizedKeys.keys = [ ssh-public-key ];
-  };
+  users.users.root.openssh.authorizedKeys.keys = [ ssh-public-key ];
 
   # TODO move these to the modules or profiles which require them.
   modules.user-manager = {

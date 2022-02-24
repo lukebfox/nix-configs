@@ -82,7 +82,7 @@ in
     };
 
     # REVIEW understand these.
-    services.dbus.packages = [ pkgs.gnome3.dconf ];
+    services.dbus.packages = [ pkgs.dconf ];
     security.pam.services.login.enableGnomeKeyring = true;
     services.gnome.gnome-keyring.enable = true;
   };
