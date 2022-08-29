@@ -33,7 +33,7 @@ in
         useACMEHost = domain;
         forceSSL = true;
         locations."/" = {
-          proxyPass = "http://${dmzIP nodes.webserver}:80";
+          proxyPass = "http://${dmzIP nodes.homeserver}:80";
         };
       };
       # Password manager at subdomain
@@ -42,15 +42,15 @@ in
         forceSSL = true;
         locations = {
           "/" = {
-            proxyPass = "http://${dmzIP nodes.webserver}:8812";
+            proxyPass = "http://${dmzIP nodes.homeserver}:8812";
             proxyWebsockets = true;
           };
           "/notifications/hub" = {
-            proxyPass = "http://${dmzIP nodes.webserver}:3012";
+            proxyPass = "http://${dmzIP nodes.homeserver}:3012";
             proxyWebsockets = true;
           };
           "/notifications/hub/negotiate" = {
-            proxyPass = "http://${dmzIP nodes.webserver}:8812";
+            proxyPass = "http://${dmzIP nodes.homeserver}:8812";
             proxyWebsockets = true;
           };
         };

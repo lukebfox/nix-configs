@@ -11,6 +11,7 @@ in
     editor = {
       enable = true;
       emacs.enable = true;
+      vscode.enable = true;
     };
     cli = {
       enable = true;

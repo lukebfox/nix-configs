@@ -24,6 +24,7 @@ in
     # Language API browser
     environment.systemPackages = attrValues {
       inherit (unstablePkgs)
+        gh
         nix-index
         nix-prefetch-git;
     };

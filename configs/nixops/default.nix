@@ -29,35 +29,23 @@ in
     { ... }:
     {
       imports = [
-        ../../profiles/nixops/backends/hetznercloud/small.nix
+        ../../profiles/nixops/backends/hetznercloud/cx11.nix
         (dmzServerNetworkProfile 10)
         ../../profiles/nixops/roles/reverse-proxy.nix
         ../../profiles/nixos/hardened
       ];
     };
 
-  webserver =
+  homeserver =
     { ... }:
     {
       imports = [
-        ../../profiles/nixops/backends/hetznercloud/small.nix
-        (dmzServerNetworkProfile 11)
+        ../../profiles/nixops/backends/hetznercloud/cx11.nix
+        (dmzServerNetworkProfile 20)
         ../../profiles/nixos/services/bitwarden
         ../../profiles/nixos/services/blog
       ];
     };
 
-  /*
-  hydra =
-    { resources, ... }:
-    {
-      imports = [
-        ../../profiles/nixops/backends/hetznercloud/small.nix
-        (dmzServerNetworkProfile 20)
-        ../../profiles/nixos/services/hydra
-      ];
-      fileSystems."/var/lib/hydra".hetznerCloud.volume = resources.hetznerCloudVolumes.volume1;
-    };
-  */
-  #resources.hetznerCloudVolumes.volume1 = { inherit apiToken; location = "nbg1"; };
+  resources.hetznerCloudVolumes.volume1 = { inherit apiToken; location = "nbg1"; };
 }
