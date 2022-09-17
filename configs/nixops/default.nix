@@ -25,8 +25,11 @@ in
     subnets = [ "10.10.10.0/24" ];
   };
 
+  resources.hetznerCloudFloatingIPs.fip1 = { inherit apiToken; location = "nbg1"; };
+  #resources.hetznerCloudVolumes.vol1 = { inherit apiToken; location = "nbg1"; };
+
   bastion =
-    { ... }:
+    { resources, ... }:
     {
       imports = [
         ../../profiles/nixops/backends/hetznercloud/cx11.nix
@@ -34,7 +37,9 @@ in
         ../../profiles/nixops/roles/reverse-proxy.nix
         ../../profiles/nixos/hardened
       ];
+      deployment.hetznerCloud.ipAddresses = [ resources.hetznerCloudFloatingIPs.fip1 ];
     };
+
 
   homeserver =
     { ... }:
@@ -47,5 +52,4 @@ in
       ];
     };
 
-  resources.hetznerCloudVolumes.volume1 = { inherit apiToken; location = "nbg1"; };
 }

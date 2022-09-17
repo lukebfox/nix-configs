@@ -20,10 +20,14 @@ in
       auto-optimise-store = mkDefault true;
       extra-sandbox-paths = [ "/bin/sh=${pkgs.bash}/bin/sh" ]; # https://github.com/NixOS/nixpkgs/issues/124372
       trusted-substituters = [
-      # "https://iohk.cachix.org"
+        "https://nixops-hetznercloud.cachix.org"
+        # "https://iohk.cachix.org"
+        # "https://cache.floxdev.com?trusted=1"
       ];
       trusted-public-keys = [
+        "nixops-hetznercloud.cachix.org-1:T8qIchSScUKHV6YEmADwmjaBitgcst55nCrdU5OHrzw="
         # "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
+        # "flox-store-public-0:8c/B+kjIaQ+BloCmNkRUKwaVPFWkriSAd0JJvuDu4F0="
       ];
       allowed-users = [ "@wheel" ];
       trusted-users = [ "root" "@wheel" ];
@@ -56,7 +60,7 @@ in
       mkpasswd      # Word hasher.
       gptfdisk      # Filesystem
       dosfstools    # utilities.
-      manpages      # Core manual.
+      man-pages     # Core manual.
       stdmanpages   # More manual.
       utillinux;    # I forgot why I had this but it was probably important.
 

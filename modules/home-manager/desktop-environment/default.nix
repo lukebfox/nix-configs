@@ -29,7 +29,7 @@ in
 
     home.packages = lib.optionals cfg.multimedia.enable (attrValues {
       inherit (pkgs)
-        citrix_workspace
+        #citrix_workspace
         vscode
         transmission  # torrent client
         nicotine-plus # soulseek

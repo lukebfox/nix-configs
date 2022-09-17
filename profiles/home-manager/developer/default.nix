@@ -1,4 +1,4 @@
-{ config, lib, pkgs, shared, ... }:
+{ config, nixosConfig, lib, pkgs, shared, ... }:
 let
   inherit (lib) fileContents;
   inherit (config.home) username;
@@ -11,7 +11,7 @@ in
     editor = {
       enable = true;
       emacs.enable = true;
-      vscode.enable = true;
+      vscode.enable = !nixosConfig.wsl.enable;
     };
     cli = {
       enable = true;

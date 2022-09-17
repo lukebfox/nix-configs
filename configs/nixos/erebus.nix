@@ -15,7 +15,7 @@
 
   # Intel CPU
   hardware.cpu.intel.updateMicrocode = true;
-  nix.maxJobs = 4; # Limit nix jobs to match number of cpu cores.
+  nix.settings.max-jobs = 4; # Limit nix jobs to match number of cpu cores.
 
   # Use system EFI boot loader.
   boot.loader = {

@@ -72,7 +72,7 @@ in
   config = {
 
     # Sane defaults.
-    users.mutableUsers = false;
+    users.mutableUsers = true;
     users.groups.builders = { gid = 1999; };
 
     # Derive a nixos user definition for every user-manager user definition.

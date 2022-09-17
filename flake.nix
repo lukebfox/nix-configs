@@ -4,12 +4,12 @@
   inputs = {
     nixpkgs =          { url = "nixpkgs/nixos-unstable"; };
     nixpkgs-unstable = { url = "nixpkgs/master"; };
-    nixops-plugged =   { url = "github:lukebfox/nixops-plugged"; };
     home-manager =     { url = "github:nix-community/home-manager"; inputs.nixpkgs.follows = "nixpkgs"; };
-    deadnix =          { url = "github:astro/deadnix"; inputs.nixpkgs.follows = "nixpkgs"; };
+    nixos-wsl =        { url = "github:nix-community/NixOS-WSL"; inputs.nixpkgs.follows = "nixpkgs"; };
     rust-overlay =     { url = "github:oxalica/rust-overlay"; inputs.nixpkgs.follows = "nixpkgs"; };
     emacs-overlay =    { url = "github:nix-community/emacs-overlay"; };
     base16 =           { url = "github:lukebfox/base16-nix"; };
+    deadnix =          { url = "github:astro/deadnix"; inputs.nixpkgs.follows = "nixpkgs"; };
     flake-utils =      { url = "github:numtide/flake-utils"; };
   };
 
@@ -17,7 +17,7 @@
             , nixpkgs
             , nixpkgs-unstable
             , home-manager
-            , nixops-plugged
+            , nixos-wsl
             , emacs-overlay
             , rust-overlay
             , base16
@@ -46,8 +46,8 @@
         inherit system;
         config = { allowUnfree = true; };
         overlays = (attrValues self.overlays) ++ [
-          emacs-overlay.overlay
-          rust-overlay.overlay
+          emacs-overlay.overlays.default
+          rust-overlay.overlays.default
         ];
       };
 
@@ -133,13 +133,14 @@
             # Make available various NixOS modules,
             modules = import ./modules/nixos/list.nix ++ [
               (home-manager.nixosModules.home-manager)
+              (nixos-wsl.nixosModules.wsl)
               # Inline module to set defaults and import the host's config.
               {
                 # Augment standard NixOS module arguments.
                 _module.args = { inherit base16 unstablePkgs utilities; };
                 imports = [
-                  (./configs/nixos + "/${hostName}.nix")
                   ./profiles/nixos/common.nix
+                  (./configs/nixos + "/${hostName}.nix")
                 ];
                 nix.nixPath = [
                   "nixpkgs=${nixpkgs}"
@@ -201,16 +202,19 @@
       ##########################################################################
       ## Nixpkgs Overlays
 
-      # An overlay for including my custom packages in some package set.
-      overlay = import ./packages;
-
       # Attrset of overlays which override various standard packages.
-      overlays = importOverlays ./overlays;
+      overlays = (importOverlays ./overlays) // {
+        # An overlay for including my custom packages in some package set.
+        default = import ./packages;
+      };
+      # for backward compatibility, is safe to delete, not referenced anywhere
+      overlay = self.overlays.default;
 
     # Now follows a bunch of outputs multiplexed for common systems.
     } // eachDefaultSystem (system:
       let
-        pkgs = pkgImport nixpkgs system;
+        pkgs         = pkgImport nixpkgs system;
+        unstablePkgs = pkgImport nixpkgs-unstable system;
       in {
 
         ########################################################################
@@ -223,14 +227,14 @@
         ## Development/Deployment Environment
 
         # A nix shell containing a nixops capable of deploying my network.
-        devShell = pkgs.mkShell {
+        devShells.default = pkgs.mkShell {
           nativeBuildInputs = [
             pkgs.gnupg
             pkgs.git
             pkgs.git-crypt
             pkgs.nixFlakes
-            deadnix.defaultPackage.${system}
-            nixops-plugged.packages.${system}.nixops-hetznercloud
+            deadnix.packages.${system}.deadnix
+            unstablePkgs.nixopsUnstable
           ];
           shellHook = ''
             mkdir -p data/secret
