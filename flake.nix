@@ -8,8 +8,6 @@
     nixos-wsl =        { url = "github:nix-community/NixOS-WSL"; inputs.nixpkgs.follows = "nixpkgs"; };
     rust-overlay =     { url = "github:oxalica/rust-overlay"; inputs.nixpkgs.follows = "nixpkgs"; };
     emacs-overlay =    { url = "github:nix-community/emacs-overlay"; };
-    base16 =           { url = "github:lukebfox/base16-nix"; };
-    deadnix =          { url = "github:astro/deadnix"; inputs.nixpkgs.follows = "nixpkgs"; };
     flake-utils =      { url = "github:numtide/flake-utils"; };
   };
 
@@ -20,8 +18,6 @@
             , nixos-wsl
             , emacs-overlay
             , rust-overlay
-            , base16
-            , deadnix
             , flake-utils
             , ... } @ inputs:
     let
@@ -85,7 +81,7 @@
               {
                 # Augment standard NixOS module arguments.
                 _module.args = {
-                  inherit unstablePkgs base16 shared utilities;
+                  inherit unstablePkgs shared utilities;
                 };
                 # Make available various NixOS modules.
                 imports = import ./modules/nixos/list.nix ++ [
@@ -137,7 +133,7 @@
               # Inline module to set defaults and import the host's config.
               {
                 # Augment standard NixOS module arguments.
-                _module.args = { inherit base16 unstablePkgs utilities; };
+                _module.args = { inherit unstablePkgs utilities; };
                 imports = [
                   ./profiles/nixos/common.nix
                   (./configs/nixos + "/${hostName}.nix")
@@ -180,7 +176,6 @@
               };
               configuration = {
                 imports = import ./modules/home-manager/list.nix ++ [
-                  (base16.homeManagerModules.base16)
                   ./profiles/home-manager/common.nix
                   ./profiles/home-manager/standalone.nix
                   configuration
@@ -233,7 +228,7 @@
             pkgs.git
             pkgs.git-crypt
             pkgs.nixFlakes
-            deadnix.packages.${system}.deadnix
+            pkgs.deadnix
             unstablePkgs.nixopsUnstable
           ];
           shellHook = ''
