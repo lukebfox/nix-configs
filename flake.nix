@@ -249,7 +249,7 @@
                   (builtins.readFile /etc/nix/nix.conf);
               nixConf = pkgs.writeTextDir "opt/nix.conf" ''
                 ${current}
-                experimental-features = nix-command flakes ca-references
+                experimental-features = nix-command flakes
               '';
             in "${nixConf}/opt";
         };
