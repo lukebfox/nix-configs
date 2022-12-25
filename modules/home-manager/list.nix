@@ -1,4 +1,5 @@
 [
+  ./base16
   ./desktop-environment
   ./editor
   ./gaming

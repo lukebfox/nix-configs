@@ -13,10 +13,10 @@ in
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     virtualHosts.${domain} = {
-      locations."/resume/" = {
-        alias = config.nixpkgs.pkgs.cv + "/";
-        index = "cv.pdf";
-      };
+      #locations."/resume/" = {
+      #  alias = config.nixpkgs.pkgs.cv + "/";
+      #  index = "cv.pdf";
+      #};
       locations."/".root = config.nixpkgs.pkgs.blog;
       extraConfig = "error_page 404 /404.html;";
     };

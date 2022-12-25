@@ -11,6 +11,7 @@ in
   options = {
     modules.editor.enable = mkEnableOption "Enable home-manager editor module.";
     modules.editor.emacs.enable = mkEnableOption "Enable home-manager module for emacs.";
+    modules.editor.vscode.enable = mkEnableOption "Enable home-manager module for emacs.";
   };
 
   ##### implementation
@@ -69,6 +70,24 @@ in
           fi
           $DOOM/bin/doom sync
         '';
+      };
+    })
+
+    (mkIf cfg.vscode.enable {
+      programs.vscode = {
+        enable = true;
+        extensions = with pkgs.vscode-extensions; [
+          ms-vscode-remote.remote-ssh
+          ms-python.python
+          eamodio.gitlens
+        ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+          {
+            name = "better-comments";
+            publisher = "aaron-bond";
+            version = "3.0.2";
+            sha256 = "sha256-hQmA8PWjf2Nd60v5EAuqqD8LIEu7slrNs8luc3ePgZc=";
+          }
+        ];
       };
     })
 
