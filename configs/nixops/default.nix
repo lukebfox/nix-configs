@@ -1,5 +1,6 @@
 { pkgs, shared, ... }:
 let
+  inherit (builtins) elemAt;
   inherit (shared.network) domain;
   inherit (pkgs.lib) fileContents;
 
@@ -13,6 +14,11 @@ let
         privateIpAddress = "10.10.10.${toString id}";
       }];
     };
+  dmzIP = node:
+    let
+      dmzServerNetwork = elemAt node.config.deployment.hetznerCloud.serverNetworks 0;
+    in
+    dmzServerNetwork.privateIpAddress;
 in
 {
 
@@ -25,29 +31,48 @@ in
     subnets = [ "10.10.10.0/24" ];
   };
 
-  resources.hetznerCloudFloatingIPs.fip1 = { inherit apiToken; location = "nbg1"; };
-  #resources.hetznerCloudVolumes.vol1 = { inherit apiToken; location = "nbg1"; };
-
   bastion =
-    { resources, ... }:
+    { nodes, resources, ... }:
+    let
+     inherit (nodes.manwe.config.services.vaultwarden.config) ROCKET_PORT WEBSOCKET_PORT;
+     baseurl = "http://${dmzIP nodes.manwe}";
+    in
     {
       imports = [
         ../../profiles/nixops/backends/hetznercloud/cx11.nix
-        (dmzServerNetworkProfile 10)
+        (dmzServerNetworkProfile 2)
         ../../profiles/nixops/roles/reverse-proxy.nix
         ../../profiles/nixos/hardened
       ];
-      deployment.hetznerCloud.ipAddresses = [ resources.hetznerCloudFloatingIPs.fip1 ];
+      deployment.hetznerCloud.ipAddresses = [ "lukebentleyfox-net" ];
+      services.nginx.virtualHosts = {
+        ${domain}.locations."/" = {
+          proxyPass = "${baseurl}:80";
+        };
+        "vaultwarden.${domain}".locations = {
+          "/" = {
+            proxyPass = "${baseurl}:${toString ROCKET_PORT}";
+            proxyWebsockets = true;
+          };
+          "/notifications/hub" = {
+            proxyPass = "${baseurl}:${toString WEBSOCKET_PORT}";
+            proxyWebsockets = true;
+          };
+          "/notifications/hub/negotiate" = {
+            proxyPass = "${baseurl}:${toString ROCKET_PORT}";
+            proxyWebsockets = true;
+          };
+        };
+      };
     };
 
-
-  homeserver =
+  manwe =
     { ... }:
     {
       imports = [
         ../../profiles/nixops/backends/hetznercloud/cx11.nix
-        (dmzServerNetworkProfile 20)
-        ../../profiles/nixos/services/bitwarden
+        (dmzServerNetworkProfile 10)
+        ../../profiles/nixos/services/vaultwarden
         ../../profiles/nixos/services/blog
       ];
     };

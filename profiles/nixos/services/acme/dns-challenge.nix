@@ -8,7 +8,7 @@ in
   # Wildcard certificate issued via DNS-01 challenge.
   security.acme = {
     acceptTerms = true;
-    email = "admin+acme@${domain}";
+    defaults.email = "admin+acme@${domain}";
     certs."${domain}" = {
       domain = "*.${domain}";
       extraDomainNames = [domain];

@@ -10,16 +10,21 @@ in
   # Bitwarden server
   services.vaultwarden = {
     enable = true;
-    #backupDir = "/mnt/bitwarden";
     config = {
-      WEB_VAULT_FOLDER = "${pkgs.vaultwarden-vault}/share/vaultwarden/vault";
-      WEB_VAULT_ENABLED = true;
+      DOMAIN = "https://${domain}";
+      
       LOG_FILE = "/var/log/vaultwarden";
+
+      ROCKET_ADDRESS = "0.0.0.0";
+      ROCKET_PORT = 8812;
+      ROCKET_LOG = "info";
+      
       WEBSOCKET_ENABLED= true;
       WEBSOCKET_ADDRESS = "0.0.0.0";
       WEBSOCKET_PORT = 3012;
-      DOMAIN = "https://${domain}";
-      ROCKET_PORT = 8812;
+      
+      WEB_VAULT_FOLDER = "${pkgs.vaultwarden-vault}/share/vaultwarden/vault";
+      WEB_VAULT_ENABLED = true;
     };
   };
 
